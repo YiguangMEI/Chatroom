@@ -32,9 +32,9 @@ public class AdminController {
         return "user_list";
     }
 
-    @GetMapping("ajoute")
-    public  String ajoutealist(Model model){
-        return "ajoute";
-    }
+   // @GetMapping("ajoute")
+    //public  String ajoutealist(Model model){
+      //  return "ajoute";
+    //}
 
 }

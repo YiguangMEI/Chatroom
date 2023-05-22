@@ -24,8 +24,8 @@ public class ajoutercontroller {
 
 
 
-    @GetMapping("/")
-    public String greetingForm(Model model) {
+    @GetMapping("")
+    public String getUser(Model model) {
         model.addAttribute("user", new User());
         return "ajoute";
     }
