@@ -18,6 +18,18 @@ public class Canal {
     @Column(name="duree")
     private int duree;
 
+    public Canal() {
+
+    }
+
+    public Canal(int id, String titre, String description, Date horaire, int duree) {
+        this.id = id;
+        this.titre = titre;
+        this.description = description;
+        this.horaire = horaire;
+        this.duree = duree;
+    }
+
     public int getId() {
         return id;
     }
