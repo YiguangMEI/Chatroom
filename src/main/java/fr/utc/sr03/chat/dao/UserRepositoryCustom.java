@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserRepositoryCustom {
     List<User> findAdminOnly();
     void DeleteBynom(String nom);
+    void disableUser(int id);
 }

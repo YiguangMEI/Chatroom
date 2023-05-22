@@ -29,4 +29,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
          Query query =entityManager.createQuery("DELETE FROM User u WHERE u.lastName = :name").setParameter("name",nom);
         int deletedCount=query.executeUpdate();
     }
+
+    @Override
+    @Transactional
+    public void disableUser(int id) {
+        Query query =entityManager.createQuery("UPDATE User u SET u.enabled = 'FALSE' WHERE u.id = :id").setParameter("id",id);
+        int updateCount=query.executeUpdate();
+    }
 }
