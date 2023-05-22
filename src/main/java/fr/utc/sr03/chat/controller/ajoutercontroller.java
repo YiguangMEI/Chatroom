@@ -21,6 +21,14 @@ import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 public class ajoutercontroller {
     @Autowired
     private UserRepository userRepository;
+
+
+
+    @GetMapping("/")
+    public String greetingForm(Model model) {
+        model.addAttribute("user", new User());
+        return "ajoute";
+    }
     @PostMapping("")
     public String addUser(@ModelAttribute User user,Model model) {
         User newUser=user;
