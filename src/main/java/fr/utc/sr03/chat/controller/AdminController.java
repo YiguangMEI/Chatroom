@@ -25,12 +25,17 @@ public class AdminController {
     private UserRepository userRepository;
 
     @GetMapping("users")
-    public String getUserList(Model model) {
+    public String getUserList(Model model,Model model1) {
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
 
+        List<User> user = userRepository.findAdminOnly();
+        model1.addAttribute("usersadmin", user);
+
         return "user_list";
     }
+
+
 
    // @GetMapping("ajoute")
     //public  String ajoutealist(Model model){

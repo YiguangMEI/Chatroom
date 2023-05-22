@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/chat.css">
 </head>
 <body>
+<div class="login-container">
 <form action="#" th:action="@{/admin/ajoute}" th:object="${user}" method="post" >
     <div>
         <label>First Name:</label>
@@ -31,9 +32,10 @@
     </div>
     <div>
         <label>admin:</label>
-        <input type="checkbox" name="admin" value="true">
+        <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}">
     </div>
     <button type="submit">Add User</button>
+</div>
 </form>
 </body>
 </html>

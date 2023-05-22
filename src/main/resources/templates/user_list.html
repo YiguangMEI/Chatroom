@@ -30,22 +30,44 @@
 </nav>
 <div class="content">
     <aside>
-        <div>Bob</div>
         <div>Admin</div>
+        <tr th:each="user : ${usersadmin}">
+            <td><span th:text="${user.lastName} "></span><br></td>
+
+        </tr>
     </aside>
+
     <main>
         <table>
             <thead>
             <tr>
                 <th>Nom</th>
                 <th>Prenom</th>
+                <th>mail</th>
+                <th>password</th>
+                <th>admin</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
                 <td><span th:text="${user.lastName}"></span></td>
                 <td><span th:text="${user.firstName}"></span></td>
+                <td><span th:text="${user.mail}"></span></td>
+                <td><span th:text="${user.password}"></span></td>
+                <td><span th:text="${user.admin}"></span></td>
+                <td>
+                <button th:if="${user.enabled}" th:onclick="'disableUser(' + ${user.id} + ')'">Désactiver</button>
+                <button th:unless="${user.enabled}" th:onclick="'enableUser(' + ${user.id} + ')'">Activer</button>
+
+                <!-- 编辑按钮 -->
+                <button th:onclick="'editUser(' + ${user.id} + ')'">Éditer</button>
+
+                <!-- 删除按钮 -->
+                <button th:onclick="'deleteUser(' + ${user.id} + ')'">Supprimer</button>
+                </td>
+
             </tr>
+
             </tbody>
         </table>
     </main>

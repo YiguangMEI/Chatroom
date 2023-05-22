@@ -28,6 +28,9 @@ public class User {
     @Column(name ="admin")
     private boolean admin;
 
+
+    @Column(name ="enabled")
+    private boolean enabled;
     public User(){}
 
     public User(long id) {
@@ -81,4 +84,13 @@ public class User {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
 }
