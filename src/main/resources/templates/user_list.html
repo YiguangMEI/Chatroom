@@ -33,7 +33,6 @@
         <div>Admin</div>
         <tr th:each="user : ${usersadmin}">
             <td><span th:text="${user.lastName} "></span><br></td>
-
         </tr>
     </aside>
 
@@ -46,6 +45,7 @@
                 <th>mail</th>
                 <th>password</th>
                 <th>admin</th>
+                <th>enable</th>
             </tr>
             </thead>
             <tbody>
@@ -55,15 +55,28 @@
                 <td><span th:text="${user.mail}"></span></td>
                 <td><span th:text="${user.password}"></span></td>
                 <td><span th:text="${user.admin}"></span></td>
-                <td>
-                <button th:if="${user.enabled}" th:onclick="'disableUser(' + ${user.id} + ')'">Désactiver</button>
-                <button th:unless="${user.enabled}" th:onclick="'enableUser(' + ${user.id} + ')'">Activer</button>
-
-                <!-- 编辑按钮 -->
-                <button th:onclick="'editUser(' + ${user.id} + ')'">Éditer</button>
-
-                <!-- 删除按钮 -->
-                <button th:onclick="'deleteUser(' + ${user.id} + ')'">Supprimer</button>
+                <td><span th:text="${user.enabled}"></span></td>
+                <td><!--禁用按钮-->
+                    <form th:if="${user.enabled}" th:action="@{/admin/disable}" method="post">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+                        <input type="submit" value="Disable"/>
+                    </form>
+                    <form th:unless="${user.enabled}" th:action="@{/admin/enable}" method="post">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+                        <input type="submit" value="Enable"/>
+                    </form>
+                </td>
+                <td><!--删除按钮-->
+                    <form th:action="@{/admin/supprimer}" method="post">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+                        <input type="submit" value="Supprimer"/>
+                    </form>
+                </td>
+                <td><!--编辑按钮-->
+                    <form th:action="@{/admin/edit}" method="get">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
                 </td>
 
             </tr>

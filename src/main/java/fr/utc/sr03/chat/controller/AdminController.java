@@ -5,10 +5,7 @@ import fr.utc.sr03.chat.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
@@ -35,9 +32,43 @@ public class AdminController {
         return "user_list";
     }
 
+    @PostMapping("disable")
+    public String disableUser(@RequestParam Long id) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setEnabled(false);
+            userRepository.save(user);
+        });
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("enable")
+    public String enableUser(@RequestParam Long id) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setEnabled(true);
+            userRepository.save(user);
+        });
+        return "redirect:/admin/users";
+    }
+    @PostMapping("supprimer")
+    public String SupprimerUser(@RequestParam Long id){
+        userRepository.deleteById(id);
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("edit")
+    public String editUser(@RequestParam Long id, Model model) {
+        userRepository.findById(id).ifPresent(user -> model.addAttribute("user", user));
+        return "user_edit";
+    }
+    @PostMapping("update")
+    public String updateUser(@ModelAttribute User user) {
+        userRepository.save(user);
+        return "redirect:/admin/users";
+    }
 
 
-   // @GetMapping("ajoute")
+
+    // @GetMapping("ajoute")
     //public  String ajoutealist(Model model){
       //  return "ajoute";
     //}
