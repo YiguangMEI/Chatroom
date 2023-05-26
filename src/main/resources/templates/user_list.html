@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-    Liste des utilisateurs
+    <strong>Liste des utilisateurs</strong>
 </header>
 <!-- Navbar Bootstrap -->
 <!-- https://getbootstrap.com/docs/5.2/components/navbar/ -->
@@ -24,14 +24,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/ajoute">Ajouter un utilisateur</a>
                 </li>
+                <li>
+                    <form th:action="@{/admin/users}" method="get">
+                        <input type="text" name="searchQuery" th:value="${searchQuery}" placeholder="Saisir ici.">
+                        <button type="submit">rechercher</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 <div class="content">
     <aside>
-        <div>Admin</div>
-        <tr th:each="user : ${usersadmin}">
+        <div><strong>Admin</strong></div>
+        <tr th:each="user : ${usersAdmin}">
             <td><span th:text="${user.lastName} "></span><br></td>
         </tr>
     </aside>
@@ -82,6 +88,15 @@
             </tr>
             </tbody>
         </table>
+        <!-- 分页导航 -->
+
+        <div>
+            <a th:href="@{/admin/users(page=0)}" th:if="${hasPreviousPage}">Première page</a>
+            <a th:href="@{/admin/users(page=${currentPage - 1})}" th:if="${hasPreviousPage}">Page précédente</a>
+            <a th:href="@{/admin/users(page=${currentPage + 1})}" th:if="${hasNextPage}">Page suivante</a>
+            <a th:href="@{/admin/users(page=${totalPages - 1})}" th:if="${hasNextPage}">Dernière page</a>
+        </div>
+
     </main>
 </div>
 <footer>footer</footer>

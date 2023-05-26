@@ -33,8 +33,14 @@ public class User {
     private boolean enabled;
     public User(){}
 
-    public User(long id) {
+    public User(long id, String firstName, String lastName, String mail, String password, boolean admin, boolean enabled) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.password = password;
+        this.admin = admin;
+        this.enabled = enabled;
     }
 
     public long getId() {

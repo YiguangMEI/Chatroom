@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * URL de base du endpoint : http://localhost:8080/login
  */
@@ -19,6 +21,8 @@ import org.springframework.web.context.request.WebRequest;
 public class LoginController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private HttpSession session;
 
     @GetMapping
     public String getLogin(Model model) {
@@ -31,6 +35,8 @@ public class LoginController {
         User loggedUser = userRepository.findByMailAndPassword(user.getMail(), user.getPassword());
 
         if (loggedUser != null && loggedUser.isAdmin()){
+            // 在会话中存储已登录的用户信息
+            session.setAttribute("loggedInUser", loggedUser);
             return "redirect:/admin/users";
         }
         else{
