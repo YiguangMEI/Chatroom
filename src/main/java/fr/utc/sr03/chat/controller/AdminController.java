@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 //import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
-
+import javax.servlet.http.HttpSession;
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 /**
@@ -28,12 +29,13 @@ public class AdminController {
     private UserRepository userRepository;
 
     @GetMapping("users")
-    public  String getUserList(Model model,
-                               @RequestParam(defaultValue = "") String searchQuery,
+    public  String getUserList(Model model,HttpSession session,
                                 @RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "5") int size) {
-
-        Pageable pageable= PageRequest.of(page, size);
+                                @RequestParam(defaultValue = "5") int size){
+        String searchQuery = (String) session.getAttribute("searchQuery");
+        String sortBy = (String) session.getAttribute("sortBy");
+        String sortOrder = (String) session.getAttribute("sortOrder");
+        Pageable pageable= PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         Page<User> userPage;
 
         if (!searchQuery.isEmpty()) {
@@ -104,7 +106,25 @@ public class AdminController {
 
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
-        return "user_list";
+        return "redirect:/admin/users";
     }
-
+    @GetMapping("search")
+    public String searchUser(Model model,
+                             @RequestParam(defaultValue = "") String searchQuery,
+                             HttpSession session) {
+        session.setAttribute("searchQuery", searchQuery);
+        return "redirect:/admin/users";
+    }
+    @PostMapping ("sort")
+    public String sortUser(Model model,
+                           @RequestParam(defaultValue = "id") String sortBy,
+                           @RequestParam(defaultValue = "asc") String sortOrder,
+                            HttpSession session) {
+        session.setAttribute("sortBy", sortBy);
+        session.setAttribute("sortOrder", sortOrder);
+        model
+                .addAttribute("sortBy", sortBy)
+                .addAttribute("sortOrder", sortOrder);
+        return "redirect:/admin/users";
+    }
 }

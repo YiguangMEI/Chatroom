@@ -25,9 +25,26 @@
                     <a class="nav-link" href="/admin/ajoute">Ajouter un utilisateur</a>
                 </li>
                 <li>
-                    <form th:action="@{/admin/users}" method="get">
+                    <form th:action="@{/admin/search}" method="get">
                         <input type="text" name="searchQuery" th:value="${searchQuery}" placeholder="Saisir ici.">
                         <button type="submit">rechercher</button>
+                    </form>
+                </li>
+                <li>
+                    <form th:action="@{/admin/sort}" method="post">
+                        <select name="sortBy">
+                            <option value="id" th:selected="${sortBy eq 'id'}">Défaut</option>
+                            <option value="firstName" th:selected="${sortBy eq 'firstName'}">Trier par prénom</option>
+                            <option value="lastName" th:selected="${sortBy eq 'lastName'}">Trier par nom</option>
+                            <option value="email" th:selected="${sortBy eq 'mail'}">Trier par email</option>
+                        </select>
+
+                        <select name="sortOrder">
+                            <option value="asc" th:selected="${sortOrder eq 'asc'}">Croissant</option>
+                            <option value="desc" th:selected="${sortOrder eq 'desc'}">Décroissant</option>
+                        </select>
+
+                        <button type="submit">排序</button>
                     </form>
                 </li>
             </ul>

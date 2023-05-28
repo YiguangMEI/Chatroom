@@ -37,6 +37,9 @@ public class LoginController {
         if (loggedUser != null && loggedUser.isAdmin()){
             // 在会话中存储已登录的用户信息
             session.setAttribute("loggedInUser", loggedUser);
+            session.setAttribute("sortBy", "id");
+            session.setAttribute("sortOrder", "asc");
+            session.setAttribute("searchQuery", "");
             return "redirect:/admin/users";
         }
         else{
