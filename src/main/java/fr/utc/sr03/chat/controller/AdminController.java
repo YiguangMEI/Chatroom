@@ -107,6 +107,13 @@ public class AdminController {
         return "ajoute";
     }
 
+    @GetMapping("list_desactive")
+    public String getUserdesactive(Model model) {
+        List<User> users = userRepository.findBYenabled(false);
+        model.addAttribute("users", users);
+        return "user_list1";
+    }
+
     @PostMapping("ajoute")
     public String addUser(@ModelAttribute User user,Model model) {
         User newUser=user;

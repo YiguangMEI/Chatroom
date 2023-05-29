@@ -10,6 +10,8 @@ body{
     padding: 0;
 }
 
+
+
 /***********************************************/
 /* LOGIN */
 /***********************************************/
@@ -25,6 +27,12 @@ body{
     width: 350px;
     border: 1px solid #ccc;
     padding: 12px;
+}
+
+.login-container > centered{
+    flex-grow: 1; /* 允许标题类自动扩展 */
+    text-align: center; /* 文本居中 */
+    font-size: 200px;
 }
 
 .login-container > form > label, .login-container > form > input{
@@ -45,6 +53,7 @@ header, footer{
 
 nav{
     height: 8%;
+
     background-color: #7da7ad;
 }
 

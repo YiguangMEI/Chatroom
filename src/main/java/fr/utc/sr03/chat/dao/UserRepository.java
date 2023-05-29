@@ -10,7 +10,8 @@ import org.springframework.data.domain.Page;
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
     // Requete generee automatiquement par Spring
     User findByMailAndPassword(@Param("mail") String mail, @Param("password") String password);
-
+    @Query("SELECT u FROM User u WHERE u.enabled= :enabled")
+    List<User> findBYenabled(@Param("enabled") boolean enabled);
     // Requete creee manuellement
     @Query("SELECT u FROM User u WHERE LENGTH(u.lastName) >= :lastNameLength")
     List<User> findByLastNameLength(@Param("lastNameLength") int lastNameLength);
