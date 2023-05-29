@@ -28,34 +28,43 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
+//    @GetMapping("users")
+//    public  String getUserList(Model model,HttpSession session,
+//                                @RequestParam(defaultValue = "0") int page,
+//                                @RequestParam(defaultValue = "5") int size){
+//        String searchQuery = (String) session.getAttribute("searchQuery");
+//        String sortBy = (String) session.getAttribute("sortBy");
+//        String sortOrder = (String) session.getAttribute("sortOrder");
+//        Pageable pageable= PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+//        Page<User> userPage;
+//
+//        if (!searchQuery.isEmpty()) {
+//            userPage = userRepository.searchUsers(searchQuery, pageable);
+//        } else {
+//            userPage = userRepository.findAll(pageable);
+//        }
+//        int totalPages= userPage.getTotalPages();
+//
+//        List<User> users = userPage.getContent();
+//
+//        List<User> user = userRepository.findAdminOnly();
+//        model.addAttribute("users", users);
+//        model.addAttribute("usersAdmin", user);
+//
+//        model.addAttribute("hasPreviousPage", userPage.hasPrevious());
+//        model.addAttribute("hasNextPage", userPage.hasNext());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", totalPages);
+//        return "user_list";
+//    }
+
     @GetMapping("users")
-    public  String getUserList(Model model,HttpSession session,
-                                @RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "5") int size){
-        String searchQuery = (String) session.getAttribute("searchQuery");
-        String sortBy = (String) session.getAttribute("sortBy");
-        String sortOrder = (String) session.getAttribute("sortOrder");
-        Pageable pageable= PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        Page<User> userPage;
+    public  String getUserList(Model model){
 
-        if (!searchQuery.isEmpty()) {
-            userPage = userRepository.searchUsers(searchQuery, pageable);
-        } else {
-            userPage = userRepository.findAll(pageable);
-        }
-        int totalPages= userPage.getTotalPages();
-
-        List<User> users = userPage.getContent();
-
-        List<User> user = userRepository.findAdminOnly();
+        List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
-        model.addAttribute("usersAdmin", user);
 
-        model.addAttribute("hasPreviousPage", userPage.hasPrevious());
-        model.addAttribute("hasNextPage", userPage.hasNext());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        return "user_list";
+        return "user_list1";
     }
 
     @PostMapping("disable")
@@ -108,23 +117,6 @@ public class AdminController {
         model.addAttribute("users", users);
         return "redirect:/admin/users";
     }
-    @GetMapping("search")
-    public String searchUser(Model model,
-                             @RequestParam(defaultValue = "") String searchQuery,
-                             HttpSession session) {
-        session.setAttribute("searchQuery", searchQuery);
-        return "redirect:/admin/users";
-    }
-    @PostMapping ("sort")
-    public String sortUser(Model model,
-                           @RequestParam(defaultValue = "id") String sortBy,
-                           @RequestParam(defaultValue = "asc") String sortOrder,
-                            HttpSession session) {
-        session.setAttribute("sortBy", sortBy);
-        session.setAttribute("sortOrder", sortOrder);
-        model
-                .addAttribute("sortBy", sortBy)
-                .addAttribute("sortOrder", sortOrder);
-        return "redirect:/admin/users";
-    }
+
+
 }

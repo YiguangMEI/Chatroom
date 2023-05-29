@@ -10,27 +10,27 @@
 <body>
 <div class="login-container">
 <form action="#" th:action="@{/admin/ajoute}" th:object="${user}" method="post" >
-    <div>
+    <div class="mb-3">
         <label>First Name:</label>
         <input type="text" th:field="*{firstName}">
     </div>
 
-    <div>
+    <div class="mb-3">
         <label>Last Name:</label>
         <input type="text" th:field="*{lastName}">
     </div>
 
-    <div>
+    <div class="mb-3">
         <label>mail:</label>
         <input type="text" th:field="*{mail}">
     </div>
 
-    <div>
+    <div class="mb-3">
         <label>password:</label>
 
         <input type="text" th:field="*{password}">
     </div>
-    <div>
+    <div class="mb-3">
         <label>admin:</label>
         <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}">
     </div>
