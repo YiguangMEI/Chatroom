@@ -35,6 +35,10 @@
         //         });
         // }
     </script>
+
+
+
+
     <!-- 导航栏style -->
     <style>
         ul {
@@ -42,7 +46,8 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #333;
+            background-color: #4CAF58;
+
         }
 
         li {
@@ -51,19 +56,19 @@
 
         li a {
             display: block;
-            color: white;
+
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
         }
 
         li a:hover:not(.active) {
-            background-color: #111;
+            background-color: #8bc34a;
 
         }
 
-        .active {
-            background-color: #4CAF50;
+        .navbar-nav .nav-link.active  {
+            background-color: #8bc34a;
 
         }
     </style>
@@ -83,13 +88,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="active" aria-current="page" href="/admin/users">Accueil</a>
+                        <a class="nav-link "  href="/admin/users"    >Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a  aria-current="page" href="/admin/ajoute">Ajouter un utilisateur</a>
+                        <a  class="nav-link"  href="/admin/ajoute">Ajouter un utilisateur</a>
                     </li>
                     <li class="nav-item">
-                        <a  aria-current="page" href="/admin/list_desactive" >Liste des utilisateurs désactivés</a>
+                        <a  class="nav-link"  href="/admin/list_desactive" >Liste des utilisateurs désactivés</a>
                     </li>
                 </ul>
             </div>
