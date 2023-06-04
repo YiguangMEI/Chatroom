@@ -20,5 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
             "OR u.lastName LIKE %:searchQuery% " +
             "OR u.mail LIKE %:searchQuery%")
     Page<User> searchUsers(@Param("searchQuery") String searchQuery, Pageable pageable);
-
+    //findByMail
+    User findByMail(@Param("mail") String mail);
 }
