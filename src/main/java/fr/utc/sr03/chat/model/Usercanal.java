@@ -16,6 +16,27 @@ public class Usercanal {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // 其他属性、构造函数和getter/setter方法
-    // ...
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Canal getCanal() {
+        return canal;
+    }
+
+    public void setCanal(Canal canal) {
+        this.canal = canal;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
