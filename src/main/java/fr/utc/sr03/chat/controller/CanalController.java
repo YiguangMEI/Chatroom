@@ -13,12 +13,12 @@ import java.util.List;
  * ex users : http://localhost:8080/canal/{username}
  */
 @RestController
-@RequestMapping("canal")
+@RequestMapping("api")
 public class CanalController {
     @Autowired
     private UsercanalRepository usercanalRepository;
     private UserRepository userRepository;
-    @GetMapping("/{user_id}")
+    @GetMapping("/canal")
     public List<Usercanal> getCanal(@RequestParam Long user_id) {
         User user = userRepository.findById(user_id).get();
         return usercanalRepository.findByuser(user);
