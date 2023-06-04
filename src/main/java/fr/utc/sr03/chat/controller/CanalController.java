@@ -6,6 +6,8 @@ import fr.utc.sr03.chat.model.User;
 import fr.utc.sr03.chat.model.Usercanal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 
 import java.util.List;
 /**
@@ -14,13 +16,16 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CanalController {
     @Autowired
     private UsercanalRepository usercanalRepository;
+    @Autowired
     private UserRepository userRepository;
-    @GetMapping("/canal")
-    public List<Usercanal> getCanal(@RequestParam Long user_id) {
-        User user = userRepository.findById(user_id).get();
+    @GetMapping("/rooms")
+    public List<Usercanal> getCanal(@RequestParam("user_Id") int user_id) {
+        long userID = user_id;
+        User user = userRepository.findById(userID).get();
         return usercanalRepository.findByuser(user);
     }
 
