@@ -11,14 +11,14 @@ import javax.websocket.server.ServerEndpointConfig;
 import java.util.Hashtable;
 
 @Component
-@ServerEndpoint(value="/sample/{login}", configurator= SampleWebSocketServer.EndpointConfigurator.class)
-public class SampleWebSocketServer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SampleWebSocketServer.class);
+@ServerEndpoint(value="/client/{login}", configurator= ClientWebSocketServer.EndpointConfigurator.class)
+public class ClientWebSocketServer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientWebSocketServer.class);
 
-    private static SampleWebSocketServer singleton = new SampleWebSocketServer();
+    private static ClientWebSocketServer singleton = new ClientWebSocketServer();
     private final Hashtable<String, Session> sessions = new Hashtable<>();
 
-    private SampleWebSocketServer() {}
+    private ClientWebSocketServer() {}
 
     //+++++++++++++++++++++++++++++++++++++++++++
     // CONFIG
@@ -29,12 +29,12 @@ public class SampleWebSocketServer {
         @Override
         @SuppressWarnings("unchecked")
         public <T> T getEndpointInstance(Class<T> endpointClass) {
-            return (T) SampleWebSocketServer.getInstance();
+            return (T) ClientWebSocketServer.getInstance();
         }
     }
 
-    public static SampleWebSocketServer getInstance() {
-        return SampleWebSocketServer.singleton;
+    public static ClientWebSocketServer getInstance() {
+        return ClientWebSocketServer.singleton;
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++

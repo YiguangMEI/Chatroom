@@ -38,7 +38,7 @@ public class LoginController {
                 return "redirect:/admin/users";
             } else if (adminMode.equals("false")) {
                 session.setAttribute("loggedInUser", loggedUser);
-                return "client";
+                return "redirect:/canal/{loggedUser.getid()}";
             } else {
                 model.addAttribute("invalid", true);
                 return "login";
