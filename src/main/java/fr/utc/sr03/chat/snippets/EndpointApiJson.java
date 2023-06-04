@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Controller
 public class EndpointApiJson {
-	@Autowired
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/snippets/users/json")

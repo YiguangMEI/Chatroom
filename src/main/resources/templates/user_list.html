@@ -1,121 +1,215 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Users</title>
+    <title>Admin</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js "></script>
-    <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css " rel="stylesheet">
-    <link rel="stylesheet" href="/css/chat.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
+                }
+            });
+        });
+
+        // function fetchPage(url) {
+        //     fetch(url)
+        //         .then(function(response) {
+        //             if (response.ok) {
+        //                 return response.text();
+        //             }
+        //             throw new Error('Error: ' + response.status);
+        //         })
+        //         .then(function(data) {
+        //
+        //             document.documentElement.innerHTML = data;
+        //         })
+        //         .catch(function(error) {
+        //             console.error(error);
+        //         });
+        // }
+    </script>
+    <!-- 导航栏style -->
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+
+        }
+
+        .active {
+            background-color: #4CAF50;
+
+        }
+    </style>
+</head>
+
+
+
+
 </head>
 <body>
-<header>
-    <strong>Liste des utilisateurs</strong>
-</header>
-<!-- Navbar Bootstrap -->
-<!-- https://getbootstrap.com/docs/5.2/components/navbar/ -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/admin/users">Accueil</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/admin/users">Liste des utilisateurs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/ajoute">Ajouter un utilisateur</a>
-                </li>
-                <li>
-                    <form th:action="@{/admin/search}" method="get">
-                        <input type="text" name="searchQuery" th:value="${searchQuery}" placeholder="Saisir ici.">
-                        <button type="submit">rechercher</button>
-                    </form>
-                </li>
-                <li>
-                    <form th:action="@{/admin/sort}" method="post">
-                        <select name="sortBy">
-                            <option value="id" th:selected="${sortBy eq 'id'}">Défaut</option>
-                            <option value="firstName" th:selected="${sortBy eq 'firstName'}">Trier par prénom</option>
-                            <option value="lastName" th:selected="${sortBy eq 'lastName'}">Trier par nom</option>
-                            <option value="email" th:selected="${sortBy eq 'mail'}">Trier par email</option>
-                        </select>
+    <div class="container">
+        <header>
+            <h1>Page administrateur</h1>
+        </header>
+        <!-- Nav bar bootstrap 5 : https://getbootstrap.com/docs/5.0/components/navbar/ -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="active" aria-current="page" href="/admin/users">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  aria-current="page" href="/admin/ajoute">Ajouter un utilisateur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  aria-current="page" href="/admin/list_desactive" >Liste des utilisateurs désactivés</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-                        <select name="sortOrder">
-                            <option value="asc" th:selected="${sortOrder eq 'asc'}">Croissant</option>
-                            <option value="desc" th:selected="${sortOrder eq 'desc'}">Décroissant</option>
-                        </select>
+        <div class="row">
+            <div class="col-8">
+                <section>
+                    Section
+                    <!-- document flex bootstrap 5 : https://getbootstrap.com/docs/4.1/utilities/flex/ -->
+                    <div class="d-flex flex-row bd-highlight mb-3">
+                        <div class="p-2 bd-highlight border">Flex item 1</div>
+                        <div class="p-2 bd-highlight border">Flex item 2</div>
+                        <div class="p-2 bd-highlight border">Flex item 3</div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight border">Flex item 1</div>
+                        <div class="p-2 bd-highlight border">Flex item 2</div>
+                        <div class="p-2 bd-highlight border">Flex item 3</div>
+                    </div>
 
-                        <button type="submit">排序</button>
+                </section>
+                <article>
+                    Article
+                    <!-- document grille bootstrap5 : https://getbootstrap.com/docs/4.1/layout/grid/ -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-2 border">2</div>
+                            <div class="col-3 border">3</div>
+                            <div class="col-1 border">1</div>
+                            <div class="col-6 border">6</div>
+                        </div>
+                    </div>
+                    <form>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="name" placeholder="Saisir votre nom" maxlength="20" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="firstname" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="Saisir votre prénom" maxlength="20" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success" onclick="valid();">Valider</button>
                     </form>
-                </li>
-            </ul>
+
+
+
+                </article>
+            </div>
+
+
+
+            <div class="col-4">
+                <aside>
+                    aside
+                </aside>
+            </div>
+
+            <!-- Datatables bootstrap 5 : https://datatables.net/examples/styling/bootstrap5.html -->
+
         </div>
+        <div class="row">
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>mail</th>
+                    <th>password</th>
+                    <th>admin</th>
+                    <th>enable</th>
+                    <th>désactiver</th>
+                    <th>supprimer</th>
+                    <th>edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td><span th:text="${user.id}"></span></td>
+                    <td><span th:text="${user.lastName}"></span></td>
+                    <td><span th:text="${user.firstName}"></span></td>
+                    <td><span th:text="${user.mail}"></span></td>
+                    <td><span th:text="${user.password}"></span></td>
+                    <td><span th:text="${user.admin}"></span></td>
+                    <td><span th:text="${user.enabled}"></span></td>
+                    <td><!--禁用按钮-->
+                        <form th:if="${user.enabled}" th:action="@{/admin/disable}" method="post">
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <input type="submit" value="Disable"/>
+                        </form>
+                        <form th:unless="${user.enabled}" th:action="@{/admin/enable}" method="post">
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <input type="submit" value="Enable"/>
+                        </form>
+                    </td>
+                    <td><!--删除按钮-->
+                        <form th:action="@{/admin/supprimer}" method="post">
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <input type="submit" value="Supprimer"/>
+                        </form>
+                    </td>
+                    <td><!--编辑按钮-->
+                        <form th:action="@{/admin/edit}" method="get">
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <input type="submit" value="Edit"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <footer>
+            <p>Cédric Martinet - <a href="mailto:cedric.martinet@utc.fr">cedric.martinet@utc.fr</a></p>
+        </footer>
     </div>
-</nav>
-<div class="content">
-    <aside>
-        <div><strong>Admin</strong></div>
-        <tr th:each="user : ${usersAdmin}">
-            <td><span th:text="${user.lastName} "></span><br></td>
-        </tr>
-    </aside>
-
-    <main>
-        <table>
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>mail</th>
-                <th>password</th>
-                <th>admin</th>
-                <th>enable</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td><span th:text="${user.lastName}"></span></td>
-                <td><span th:text="${user.firstName}"></span></td>
-                <td><span th:text="${user.mail}"></span></td>
-                <td><span th:text="${user.password}"></span></td>
-                <td><span th:text="${user.admin}"></span></td>
-                <td><span th:text="${user.enabled}"></span></td>
-                <td><!--禁用按钮-->
-                    <form th:if="${user.enabled}" th:action="@{/admin/disable}" method="post">
-                        <input type="hidden" name="id" th:value="${user.id}"/>
-                        <input type="submit" value="Disable"/>
-                    </form>
-                    <form th:unless="${user.enabled}" th:action="@{/admin/enable}" method="post">
-                        <input type="hidden" name="id" th:value="${user.id}"/>
-                        <input type="submit" value="Enable"/>
-                    </form>
-                </td>
-                <td><!--删除按钮-->
-                    <form th:action="@{/admin/supprimer}" method="post">
-                        <input type="hidden" name="id" th:value="${user.id}"/>
-                        <input type="submit" value="Supprimer"/>
-                    </form>
-                </td>
-                <td><!--编辑按钮-->
-                    <form th:action="@{/admin/edit}" method="get">
-                        <input type="hidden" name="id" th:value="${user.id}"/>
-                        <input type="submit" value="Edit"/>
-                    </form>
-                </td>
-
-            </tr>
-            </tbody>
-        </table>
-        <!-- 分页导航 -->
-
-        <div>
-            <a th:href="@{/admin/users(page=0)}" th:if="${hasPreviousPage}">Première page</a>
-            <a th:href="@{/admin/users(page=${currentPage - 1})}" th:if="${hasPreviousPage}">Page précédente</a>
-            <a th:href="@{/admin/users(page=${currentPage + 1})}" th:if="${hasNextPage}">Page suivante</a>
-            <a th:href="@{/admin/users(page=${totalPages - 1})}" th:if="${hasNextPage}">Dernière page</a>
-        </div>
-
-    </main>
-</div>
-<footer>footer</footer>
 </body>
 </html>
