@@ -28,31 +28,22 @@ public class LoginController {
     }
 
     @PostMapping
-    public String postLogin(@ModelAttribute User user, @RequestParam(value = "admin", defaultValue = "false") String adminMode, Model model) {
+    public String postLogin(@ModelAttribute User user, Model model) {
         User loggedUser = userRepository.findByMailAndPassword(user.getMail(), user.getPassword());
-
         if (loggedUser != null) {
-            if (adminMode.equals("true") && loggedUser.isAdmin()) {
                 // 在会话中存储已登录的用户信息
                 session.setAttribute("loggedInUser", loggedUser);
                 return "redirect:/admin/users";
-            } else if (adminMode.equals("false")) {
-                session.setAttribute("loggedInUser", loggedUser);
-                return "redirect:/canal/{loggedUser.getid()}";
-            } else {
-                model.addAttribute("invalid", true);
-                return "login";
-            }
         } else {
             model.addAttribute("invalid", true);
             return "login";
         }
     }
 
-    @GetMapping("/reset-password")
-    public String showResetPasswordForm() {
-        return "reset";
-    }
+//    @GetMapping("/reset-password")
+//    public String showResetPasswordForm() {
+//        return "reset";
+//    }
 
 //    @PostMapping("/reset-password")
 //    public String resetPassword(@RequestParam("email") String email) {
