@@ -6,22 +6,33 @@ const Login = (props) => {
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [User, setUser] = useState([]);
+    const navigate = useNavigate();
     const handleLogin =async (event) => {
         event.preventDefault();
         console.log("mail = " + mail)
         console.log("password = " + password)
+
         //TODO Requete http login au backend spring
         // axios.post...
         try {
-            const response = await axios.post('localhost:8080/api/login', {
-                email: mail,
+            const response = await axios.post('http://localhost:8080/api/login', {
+                mail: mail,
                 password: password
-            }).then(setUser(response.data));
-// 处理登录成功的逻辑
+            });
 
-        }catch (error){
-            console.error("登录失败");
-            console.error("错误信息:", error.response.data);
+            if (response && response.data) {
+                setUser(response.data); // 处理登录成功逻辑
+                console.log("登录成功");
+                document.cookie = `user=${encodeURIComponent(JSON.stringify(response.data))}; path=/`;
+                // 跳转到其他页面
+                navigate("/api/chats");
+            } else {
+                // 处理登录失败逻辑
+                console.log("登录失败");
+            }
+        } catch (error) {
+            // 处理请求错误逻辑
+            console.error("登录请求错误:", error);
         }
     }
 

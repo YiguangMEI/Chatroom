@@ -1,42 +1,59 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-
+import {Link,useNavigate} from "react-router-dom";
+import axios from 'axios';
 const ChatList = (props) => {
     const [chats, setChats] = useState([])
+    const [User, setUser] = useState([])
+    const navigate = useNavigate();
+
+    const cookies = document.cookie.split('; ');
+    const userCookie = cookies.find(cookie => cookie.startsWith('user='));
 
     // => "onload"
     useEffect(() => {
         //TODO Recuperer la liste des chats du user depuis le backend spring
         // axios.get...
-        setChats([
-            {
-                'id': 1,
-                'title': 'chat 1',
-                'description' : 'le 1er chat'
-            },
-            {
-                'id': 2,
-                'title': 'chat 2',
-                'description' : 'le 2e chat'
+        if (userCookie) {
+            const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+            const userid=user.id;
+            setUser(user);
+            const fetchCanalList = async () => {
+                try {
+                    const response = await axios.get('http://localhost:8080/api/chats', {
+                        params: {
+                            user_Id: userid // 将 userId 替换为实际的用户ID
+                        }
+                    });
+                    setChats(response.data);
+                } catch (error) {
+                    console.error('Error fetching Canal list:', error);
+                }
+
             }
-        ])
+            fetchCanalList();
+        } else {
+            navigate("/");
+        }
+
+
+
     }, [])
 
     return (
         <div>
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid">
-                    <Link className={'navbar-brand'} to="/chats">Accueil</Link>
+                    <Link className={'navbar-brand'} to="/api/chats">Accueil</Link>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Planifier une discussion</Link>
+                                <Link className={'nav-link'} to="/api/chats">Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Mes salons de discussion</Link>
+                                <Link className={'nav-link'} to="/api/meschats">Mes salons de discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Mes invitations</Link>
+                                <Link className={'nav-link'} to="/api/invitchats">Mes invitations</Link>
                             </li>
                         </ul>
                     </div>
@@ -44,8 +61,9 @@ const ChatList = (props) => {
             </nav>
             <div className="content">
                 <aside>
-                    <div>Bob</div>
-                    <div>Admin</div>
+
+
+
                 </aside>
                 <main>
                     <table className="table">
@@ -58,8 +76,8 @@ const ChatList = (props) => {
                         <tbody>
                         {chats && chats.map((chat) => (
                             <tr key={chat.id}>
-                                <td>{chat.title}</td>
-                                <td>{chat.description}</td>
+                                <td>{chat.canal.titre}</td>
+                                <td>{chat.canal.description}</td>
                             </tr>
                         ))}
                         </tbody>

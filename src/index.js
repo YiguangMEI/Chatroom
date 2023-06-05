@@ -15,7 +15,9 @@ root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/chats" element={<ChatList />} />
+            <Route path="/api/chats" element={<ChatList />} />
+            <Route path="/api/meschats" element={<ChatList />} />
+            <Route path="/api/invitchats" element={<ChatList />} />
         </Routes>
     </BrowserRouter>
 );
