@@ -16,6 +16,13 @@ public class Usercanal {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Usercanal() {
+    }
+    public Usercanal(Canal canal, User user) {
+        this.canal = canal;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }

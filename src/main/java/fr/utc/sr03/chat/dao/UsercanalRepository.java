@@ -12,4 +12,6 @@ public interface UsercanalRepository extends JpaRepository<Usercanal,Long>{
     // Requete generee automatiquement par Spring
 
     List<Usercanal> findByuser(@Param("user") User user);
+
+    Usercanal findByuserAndCanal(@Param("user") User user, @Param("canal") Canal canal);
 }

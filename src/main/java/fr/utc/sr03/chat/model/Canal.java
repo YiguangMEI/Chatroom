@@ -17,17 +17,18 @@ public class Canal {
     private Date horaire;
     @Column(name="duree")
     private int duree;
-
+    @ManyToOne
+    @JoinColumn(name="owner")
+    private User owner;
     public Canal() {
-
     }
 
-    public Canal(int id, String titre, String description, Date horaire, int duree) {
-        this.id = id;
+    public Canal(String titre, String description, Date horaire, int duree, User owner) {
         this.titre = titre;
         this.description = description;
         this.horaire = horaire;
         this.duree = duree;
+        this.owner = owner;
     }
 
     public int getId() {
@@ -69,4 +70,11 @@ public class Canal {
         this.duree = duree;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }
