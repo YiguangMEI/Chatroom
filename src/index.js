@@ -9,15 +9,16 @@ import {
     Route,
 } from "react-router-dom";
 import ChatList from "./components/ChatList";
+import Planifier from "./components/Planifier";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/api/chats" element={<ChatList />} />
-            <Route path="/api/meschats" element={<ChatList />} />
-            <Route path="/api/invitchats" element={<ChatList />} />
+            <Route path="/api/rooms/owner" element={<ChatList />} />
+            <Route path="/api/rooms/inivitation" element={<ChatList />} />
+            <Route path="/api/rooms/planifier" element={<Planifier />} />
         </Routes>
     </BrowserRouter>
 );

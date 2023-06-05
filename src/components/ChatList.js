@@ -8,18 +8,20 @@ const ChatList = (props) => {
 
     const cookies = document.cookie.split('; ');
     const userCookie = cookies.find(cookie => cookie.startsWith('user='));
-
+    const apiUrl1 = 'http://localhost:8080/api/inivitatroomsion';
     // => "onload"
     useEffect(() => {
-        //TODO Recuperer la liste des chats du user depuis le backend spring
+        //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
         // axios.get...
+
+
         if (userCookie) {
             const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
             const userid=user.id;
             setUser(user);
-            const fetchCanalList = async () => {
+            const fetchCanalList = async (event) => {
                 try {
-                    const response = await axios.get('http://localhost:8080/api/chats', {
+                    const response = await axios.get('http://localhost:8080/api/rooms/owner', {
                         params: {
                             user_Id: userid // 将 userId 替换为实际的用户ID
                         }
@@ -47,13 +49,16 @@ const ChatList = (props) => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/chats">Planifier une discussion</Link>
+                                <Link className={'nav-link'} to="/api/rooms/planifier">Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/meschats">Mes salons de discussion</Link>
+                                <Link className={'nav-link'} to="/api/rooms/owner" >Mes salons de discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/invitchats">Mes invitations</Link>
+                                <Link className={'nav-link'} to="/api/rooms/inivitation">Mes invitations</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className={'nav-link'} to="/api/rooms/inivitation">Mes invitations</Link>
                             </li>
                         </ul>
                     </div>
@@ -61,7 +66,7 @@ const ChatList = (props) => {
             </nav>
             <div className="content">
                 <aside>
-
+                    <p>{User && User.name}</p>
 
 
                 </aside>
@@ -76,8 +81,8 @@ const ChatList = (props) => {
                         <tbody>
                         {chats && chats.map((chat) => (
                             <tr key={chat.id}>
-                                <td>{chat.canal.titre}</td>
-                                <td>{chat.canal.description}</td>
+                                <td>{chat.titre}</td>
+                                <td>{chat.description}</td>
                             </tr>
                         ))}
                         </tbody>

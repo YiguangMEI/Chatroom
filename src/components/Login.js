@@ -7,6 +7,7 @@ const Login = (props) => {
     const [password, setPassword] = useState('')
     const [User, setUser] = useState([]);
     const navigate = useNavigate();
+
     const handleLogin =async (event) => {
         event.preventDefault();
         console.log("mail = " + mail)
@@ -25,7 +26,7 @@ const Login = (props) => {
                 console.log("登录成功");
                 document.cookie = `user=${encodeURIComponent(JSON.stringify(response.data))}; path=/`;
                 // 跳转到其他页面
-                navigate("/api/chats");
+                navigate("/api/rooms/inivitation");
             } else {
                 // 处理登录失败逻辑
                 console.log("登录失败");
