@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Email;
 
 
 import java.text.ParseException;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 /**
  * URL de base du endpoint : http://localhost:8080/canal<br>
  * ex users : http://localhost:8080/canal/{username}
@@ -39,7 +42,9 @@ public class CanalController {
     private HttpSession session;
     //login
     @PostMapping("/login")
-    public User getLogin(@RequestParam("mail") String mail, @RequestParam("password") String password) {
+    public User getLogin(@RequestBody Map<String, String> loginRequest) {
+        String mail = loginRequest.get("mail");
+        String password = loginRequest.get("password");
         User loggedUser = userRepository.findByMailAndPassword(mail, password);
         if (loggedUser != null) {
             session.setAttribute("loggedInUser", loggedUser);
@@ -64,7 +69,7 @@ public class CanalController {
     }
 
     @GetMapping("/rooms/owner")
-    public List<Canal> getCanalOwner(@RequestParam("user_id") int user_id){
+    public List<Canal> getCanalOwner(@RequestParam("user_Id") int user_id){
         long userID = user_id;
         User user = userRepository.findById(userID).get();
         return canalRepository.findByowner(user);
@@ -91,7 +96,13 @@ public class CanalController {
 
 
     @PostMapping("/rooms/planifier")
-    public Canal planifierCanal(@RequestParam("user_id") int user_id, @RequestParam("canal_name") String canal_name, @RequestParam("canal_description") String canal_description, @RequestParam("canal_date") String canal_date, @RequestParam("canal_time") int canal_time) {
+    public Canal planifierCanal(@RequestBody Map<String, Object> requestBody) {
+        int user_id= (int) requestBody.get("user_id");
+        String canal_name = (String) requestBody.get("canal_name");
+        String canal_description = (String) requestBody.get("canal_description");
+        String canal_date = (String) requestBody.get("canal_date");
+        int canal_time = (int) requestBody.get("canal_time");
+
         long userID = user_id;
         String formatPattern = "yyyy-MM-dd";
         SimpleDateFormat formatter = new SimpleDateFormat(formatPattern);
