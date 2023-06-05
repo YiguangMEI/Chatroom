@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -51,10 +52,15 @@ public class CanalController {
     }
 
     @GetMapping("/rooms/inivitation")
-    public List<Usercanal> getCanalInvitation(@RequestParam("user_Id") int user_id) {
+    public List<Canal> getCanalInvitation(@RequestParam("user_Id") int user_id) {
         long userID = user_id;
         User user = userRepository.findById(userID).get();
-        return usercanalRepository.findByuser(user);
+        List<Usercanal> usercanals=usercanalRepository.findByuser(user);
+        List<Canal> canals=new ArrayList<>();
+        for (Usercanal usercanal:usercanals){
+                canals.add(usercanal.getCanal());
+        }
+        return canals;
     }
 
     @GetMapping("/rooms/owner")
