@@ -56,7 +56,7 @@ public class CanalController {
         }
     }
 
-    @GetMapping("/rooms/inivitation")
+    @GetMapping("/rooms/invitation")
     public List<Canal> getCanalInvitation(@RequestParam("user_Id") int user_id) {
         long userID = user_id;
         User user = userRepository.findById(userID).get();
