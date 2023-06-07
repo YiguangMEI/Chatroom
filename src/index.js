@@ -17,7 +17,7 @@ root.render(
         <Routes>
             <Route path="/" element={<App />} />
             <Route path="/api/rooms/owner" element={<ChatList />} />
-            <Route path="/api/rooms/inivitation" element={<ChatList />} />
+            <Route path="/api/rooms/invitation" element={<ChatList />} />
             <Route path="/api/rooms/planifier" element={<Planifier />} />
         </Routes>
     </BrowserRouter>

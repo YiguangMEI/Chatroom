@@ -1,38 +1,42 @@
 import React, {useEffect, useState} from "react";
 import {Link,useNavigate} from "react-router-dom";
 import axios from 'axios';
+const currentUrl = window.location.href;
+const updatedUrl = currentUrl.replace('3000', '8080');
+console.log(updatedUrl);
+
 const ChatList = (props) => {
     const [chats, setChats] = useState([])
     const [User, setUser] = useState([])
     const navigate = useNavigate();
 
-    const cookies = document.cookie.split('; ');
-    const userCookie = cookies.find(cookie => cookie.startsWith('user='));
-    const apiUrl1 = 'http://localhost:8080/api/inivitatroomsion';
-    // => "onload"
+
+    const fetchCanalList = async (url) => {
+        try {
+            const userid=User.id;
+            const response = await axios.get(url, {
+                params: {
+                    user_Id: userid // 将 userId 替换为实际的用户ID
+                }
+            });
+            setChats(response.data);
+        } catch (error) {
+            console.error('Error fetching Canal list:', error);
+        }
+
+    }
+
+
+
     useEffect(() => {
         //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
         // axios.get...
+        const user = sessionStorage.getItem('user');
 
-
-        if (userCookie) {
-            const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
-            const userid=user.id;
-            setUser(user);
-            const fetchCanalList = async (event) => {
-                try {
-                    const response = await axios.get('http://localhost:8080/api/rooms/owner', {
-                        params: {
-                            user_Id: userid // 将 userId 替换为实际的用户ID
-                        }
-                    });
-                    setChats(response.data);
-                } catch (error) {
-                    console.error('Error fetching Canal list:', error);
-                }
-
-            }
-            fetchCanalList();
+        if (user) {
+            const parsedUser = JSON.parse(user);
+            setUser(parsedUser);
+            fetchCanalList('http://localhost:8080/api/rooms/invitation');
         } else {
             navigate("/");
         }
@@ -40,6 +44,11 @@ const ChatList = (props) => {
 
 
     }, [])
+
+
+
+    // => "onload"
+
 
     return (
         <div>
@@ -49,13 +58,17 @@ const ChatList = (props) => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/rooms/planifier">Planifier une discussion</Link>
+                                <Link className={'nav-link'} to="/api/rooms/planifier"  >Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/rooms/owner" >Mes salons de discussion</Link>
+                                <Link className={'nav-link'} to="/api/rooms/owner" onClick={() =>
+                                    fetchCanalList('http://localhost:8080/api/rooms/owner')
+
+                                }>Mes salons de discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/rooms/inivitation">Mes invitations</Link>
+                                <Link className={'nav-link'} to="/api/rooms/invitation" onClick={() =>
+                                    fetchCanalList('http://localhost:8080/api/rooms/invitation')}>Mes invitations</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className={'nav-link'} to="/api/rooms/inivitation">Mes invitations</Link>
