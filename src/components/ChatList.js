@@ -9,8 +9,6 @@ const ChatList = (props) => {
     const [chats, setChats] = useState([])
     const [User, setUser] = useState([])
     const navigate = useNavigate();
-
-
     const fetchCanalList = async (url) => {
         try {
             const userid=User.id;
@@ -36,7 +34,6 @@ const ChatList = (props) => {
         if (user) {
             const parsedUser = JSON.parse(user);
             setUser(parsedUser);
-            fetchCanalList('http://localhost:8080/api/rooms/invitation');
         } else {
             navigate("/");
         }
@@ -61,13 +58,13 @@ const ChatList = (props) => {
                                 <Link className={'nav-link'} to="/api/rooms/planifier"  >Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/rooms/owner" onClick={() =>
+                                <Link  className={'nav-link'} onClick={() =>
                                     fetchCanalList('http://localhost:8080/api/rooms/owner')
 
                                 }>Mes salons de discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/api/rooms/invitation" onClick={() =>
+                                <Link className={'nav-link'} onClick={() =>
                                     fetchCanalList('http://localhost:8080/api/rooms/invitation')}>Mes invitations</Link>
                             </li>
                             <li className="nav-item">
@@ -79,9 +76,8 @@ const ChatList = (props) => {
             </nav>
             <div className="content">
                 <aside>
-                    <p>{User && User.name}</p>
-
-
+                    <p>ID: {User && User.id}</p>
+                    <p>Name: {User && User.firstName}</p>
                 </aside>
                 <main>
                     <table className="table">

@@ -27,7 +27,7 @@ const Login = (props) => {
                 document.cookie = `user=${encodeURIComponent(JSON.stringify(response.data))}; path=/`;
                 sessionStorage.setItem('user', JSON.stringify(response.data));
                 // 跳转到其他页面
-                navigate("/api/rooms/invitation");
+                navigate("/rooms");
             } else {
                 // 处理登录失败逻辑
                 console.log("登录失败");
