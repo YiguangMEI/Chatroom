@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
+import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
+
 /**
  * URL de base du endpoint : http://localhost:8080/canal<br>
  * ex users : http://localhost:8080/canal/{username}
@@ -56,7 +59,7 @@ public class CanalController {
         }
     }
 
-    @GetMapping("/rooms/inivitation")
+    @GetMapping("/rooms/invitation")
     public List<Canal> getCanalInvitation(@RequestParam("user_Id") int user_id) {
         long userID = user_id;
         User user = userRepository.findById(userID).get();
@@ -84,13 +87,15 @@ public class CanalController {
         usercanalRepository.delete(usercanal);
     }
     @DeleteMapping("/rooms/owner/{canal_id}")
-    public void supprimerCanal(@PathVariable("canal_id") int canal_id, @RequestParam("user") int user_id){
-        long canalID = canal_id;
-        long userID = user_id;
-        User user = userRepository.findById(userID).get();
-        Canal canal = canalRepository.findById(canalID).get();
-        if (canal.getOwner().getId() == user.getId()){
+    public boolean supprimerCanal(@PathVariable("canal_id") int canal_id){
+        try{
+            long canalID = canal_id;
+            Canal canal = canalRepository.findById(canalID).get();
             canalRepository.delete(canal);
+            return true;
+        }
+        catch (Exception e){
+            return false;
         }
     }
 
@@ -136,5 +141,4 @@ public class CanalController {
         Usercanal usercanal = new Usercanal(canal, user);
         usercanalRepository.save(usercanal);
     }
-
 }
