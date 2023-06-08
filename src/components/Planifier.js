@@ -31,7 +31,8 @@ const CanalForm = () => {
     }
 
     return (
-        <div>
+
+        <div >
             <h2>计划频道</h2>
             <form onSubmit={handleSubmit}>
                 <div>
