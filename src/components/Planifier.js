@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-const CanalForm = () => {
+const Planifier = () => {
     const [userId, setUserId] = useState("");
     const [canalName, setCanalName] = useState("");
     const [canalDescription, setCanalDescription] = useState("");
@@ -24,6 +24,7 @@ const CanalForm = () => {
 
             // 处理成功响应逻辑
             console.log("计划成功:", response.data);
+            alert("计划成功");
         } catch (error) {
             // 处理错误响应逻辑
             console.error("计划请求错误:", error);
@@ -91,4 +92,4 @@ const CanalForm = () => {
     );
 }
 
-export default CanalForm;
+export default  Planifier;
