@@ -8,7 +8,7 @@ import java.util.Date;
 public class Canal {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(name="titre")
     private String titre;
     @Column(name="description")
@@ -31,7 +31,7 @@ public class Canal {
         this.owner = owner;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
