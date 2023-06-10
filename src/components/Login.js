@@ -24,7 +24,6 @@ const Login = (props) => {
             if (response && response.data) {
                 setUser(response.data); // 处理登录成功逻辑
                 console.log("登录成功");
-                document.cookie = `user=${encodeURIComponent(JSON.stringify(response.data))}; path=/`;
                 sessionStorage.setItem('user', JSON.stringify(response.data));
                 // 跳转到其他页面
                 navigate("/rooms");

@@ -13,7 +13,12 @@ const ChatList = (props) => {
     const [User, setUser] = useState([]);
     const navigate = useNavigate();
     const [selectedNavItem, setSelectedNavItem] = useState(null);
-    const [showModalVisible, setShowModalVisible] = useState(null);
+
+    const [inChatRoom, setInChatRoom] = useState(false);
+    const [currentChat, setCurrentChat] = useState(null);
+
+
+
     const fetchCanalList = async (url) => {
         try {
                 const userid=User.id;
@@ -58,6 +63,23 @@ const ChatList = (props) => {
         }
     }
 
+    const enterChatRoom = (chat) => {
+        setCurrentChat(chat);
+        setInChatRoom(true);
+        // 发送加入聊天室的请求到服务器
+       // const joinMessage = { type: 'join', canalId: canal.id };
+        //websocket.send(JSON.stringify(joinMessage));
+    };
+
+    const exitChatRoom = () => {
+        // 退出聊天室的逻辑
+        // 设置 inChatRoom 状态为 false
+        setInChatRoom(false);
+    };
+
+
+
+
     useEffect(() => {
         //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
         // axios.get...
@@ -69,6 +91,8 @@ const ChatList = (props) => {
         } else {
             navigate("/");
         }
+        setCurrentChat(1);
+
     }, [])
 
 
@@ -109,11 +133,23 @@ const ChatList = (props) => {
                             chats={chats}
                             handleEdit={handleEdit}
                             handleDelete={handleDelete}
+                            enterChatRoom={enterChatRoom}
+                            exitChatRoom={exitChatRoom}
+                            inChatRoom={inChatRoom}
+                            currentChat={currentChat}
+                            User={User}
                         />
                     )}
 
                     {selectedNavItem === 'invitations' && (
-                        <ChatListInvitations chats={chats} />
+                        <ChatListInvitations chats={chats}
+                                             enterChatRoom={enterChatRoom}
+                                             exitChatRoom={exitChatRoom}
+                                             inChatRoom={inChatRoom}
+                                             currentChat={currentChat}
+                                             User={User}
+
+                        />
                     )}
 
                     {selectedNavItem === 'accueil' &&(
