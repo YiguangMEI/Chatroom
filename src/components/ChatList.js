@@ -1,88 +1,143 @@
-import React, {useEffect, useState} from "react";
-import {Link,useNavigate} from "react-router-dom";
+// import React, {useEffect, useState} from "react";
+// import {Link,useNavigate} from "react-router-dom";
+// import axios from 'axios';
+//
+// import {ChatListSalons} from "./ChatListContent";
+// import {ChatListInvitations} from "./ChatListContent";
+// import Planifier from "./Planifier";
+// // const currentUrl = window.location.href;
+// // const updatedUrl = currentUrl.replace('3000', '8080');
+// // console.log(updatedUrl);
+//
+// const ChatList = (props) => {
+//     const [chats, setChats] = useState([])
+//     const [User, setUser] = useState([]);
+//     const navigate = useNavigate();
+//     const [selectedNavItem, setSelectedNavItem] = useState(null);
+//     const [modalVisible, setModalVisible] = useState(false);
+//     const fetchCanalList = async (url) => {
+//         try {
+//                 const userid=User.id;
+//                 const response = await axios.get(url, {
+//                     params: {
+//                         user_Id: userid // 将 userId 替换为实际的用户ID
+//                     }
+//                 });
+//                 setChats(response.data);
+//         } catch (error) {
+//             console.error('Error fetching Canal list:', error);
+//         }
+//     }
+//
+//     useEffect(() => {
+//         //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
+//         // axios.get...
+//         const user = sessionStorage.getItem('user');
+//
+//         if (user) {
+//             const parsedUser = JSON.parse(user);
+//             setUser(parsedUser);
+//         } else {
+//             navigate("/");
+//         }
+//         //setCurrentChat(1);
+//
+//     }, [])
+//
+//
+//
+//     // => "onload"
+//
+//
+//     return (
+//
+//         <div>
+//             <nav className="navbar navbar-expand-lg">
+//                 <div className="container-fluid">
+//                     <Link className={'navbar-brand'} onClick={()=>{setSelectedNavItem("accueil");}}>Accueil</Link>
+//                     <div className="collapse navbar-collapse" id="navbarNav">
+//                         <ul className="navbar-nav">
+//                             <li className="nav-item">
+//                                 <Link className={'nav-link'} onClick={()=>{setSelectedNavItem("planifier");}}  >Planifier une discussion</Link>
+//                             </li>
+//                             <li className="nav-item">
+//                                 <Link className={'nav-link'} onClick={() =>{
+//                                     fetchCanalList('http://localhost:8080/api/rooms/owner');setSelectedNavItem("Salons");}}>Mes salons de discussion</Link>
+//                             </li>
+//                             <li className="nav-item">
+//                                 <Link className={'nav-link'} onClick={() =>{
+//                                     fetchCanalList('http://localhost:8080/api/rooms/invitation');setSelectedNavItem("invitations");}}>Mes invitations</Link>
+//                             </li>
+//                         </ul>
+//                     </div>
+//                 </div>
+//             </nav>
+//             <div className="content">
+//                 <aside>
+//                     <p>ID: {User && User.id}</p>
+//                     <p>Name: {User && User.firstName}</p>
+//                 </aside>
+//                 <main>
+//                     {selectedNavItem === 'Salons' && (
+//                         <ChatListSalons
+//                             chats={chats}
+//                             User={User}
+//                         />
+//                     )}
+//
+//                     {selectedNavItem === 'invitations' && (
+//                         <ChatListInvitations chats={chats}
+//                                              User={User}
+//
+//                         />
+//                     )}
+//
+//                     {selectedNavItem === 'accueil' &&(
+//                         <h1>Bienvenue sur la page d'accueil</h1>
+//                     )}
+//                     {selectedNavItem === 'planifier' &&(
+//                         <Planifier
+//                         />
+//                     )}
+//                 </main>
+//             </div>
+//         </div>
+//     );
+// }
+//
+// export default ChatList;
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import axios from 'axios';
-import {ChatListSalons} from "./ChatListContent.js";
-import {ChatListInvitations} from "./ChatListContent";
+
+import { ChatListSalons } from "./ChatListContent";
+import { ChatListInvitations } from "./ChatListContent";
 import Planifier from "./Planifier";
-// const currentUrl = window.location.href;
-// const updatedUrl = currentUrl.replace('3000', '8080');
-// console.log(updatedUrl);
+
+const { Header, Content, Sider } = Layout;
 
 const ChatList = (props) => {
-    const [chats, setChats] = useState([])
+    const [chats, setChats] = useState([]);
     const [User, setUser] = useState([]);
     const navigate = useNavigate();
     const [selectedNavItem, setSelectedNavItem] = useState(null);
 
-    const [inChatRoom, setInChatRoom] = useState(false);
-    const [currentChat, setCurrentChat] = useState(null);
-
-
-
     const fetchCanalList = async (url) => {
         try {
-                const userid=User.id;
-                const response = await axios.get(url, {
-                    params: {
-                        user_Id: userid // 将 userId 替换为实际的用户ID
-                    }
-                });
-                setChats(response.data);
+            const userid = User.id;
+            const response = await axios.get(url, {
+                params: {
+                    user_Id: userid // 将 userId 替换为实际的用户ID
+                }
+            });
+            setChats(response.data);
         } catch (error) {
             console.error('Error fetching Canal list:', error);
         }
     }
 
-
-
-    async function handleEdit(id) {
-        try {
-            // 执行异步编辑操作
-            const response = await axios.put(`http://localhost:8080/api/chats/${id}`, { /* 编辑数据 */ });
-            // 处理成功的响应
-            console.log("编辑成功", response.data);
-        } catch (error) {
-            // 处理错误
-            console.error("编辑失败", error);
-        }
-    }
-
-    async function handleDelete(id) {
-        try {
-            // 执行异步删除操作
-            const response = await axios.delete(`http://localhost:8080/api/rooms/owner/${id}`);
-            // 处理成功的响应
-            if(response.data){
-                alert('删除成功');
-            }else {
-                alert('删除失败');
-            }
-        } catch (error) {
-            // 处理错误
-            console.error("删除失败", error);
-        }
-    }
-
-    const enterChatRoom = (chat) => {
-        setCurrentChat(chat);
-        setInChatRoom(true);
-        // 发送加入聊天室的请求到服务器
-       // const joinMessage = { type: 'join', canalId: canal.id };
-        //websocket.send(JSON.stringify(joinMessage));
-    };
-
-    const exitChatRoom = () => {
-        // 退出聊天室的逻辑
-        // 设置 inChatRoom 状态为 false
-        setInChatRoom(false);
-    };
-
-
-
-
     useEffect(() => {
-        //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
-        // axios.get...
         const user = sessionStorage.getItem('user');
 
         if (user) {
@@ -91,83 +146,52 @@ const ChatList = (props) => {
         } else {
             navigate("/");
         }
-        setCurrentChat(1);
-
     }, [])
 
-
-
-    // => "onload"
-
-
     return (
-        <div>
-            <nav className="navbar navbar-expand-lg">
-                <div className="container-fluid">
-                    <Link className={'navbar-brand'} onClick={()=>{setSelectedNavItem("accueil");}}>Accueil</Link>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link className={'nav-link'} onClick={()=>{setSelectedNavItem("planifier");}}  >Planifier une discussion</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={'nav-link'} onClick={() =>{
-                                    fetchCanalList('http://localhost:8080/api/rooms/owner');setSelectedNavItem("Salons");}}>Mes salons de discussion</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={'nav-link'} onClick={() =>{
-                                    fetchCanalList('http://localhost:8080/api/rooms/invitation');setSelectedNavItem("invitations");}}>Mes invitations</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <div className="content">
-                <aside>
-                    <p>ID: {User && User.id}</p>
-                    <p>Name: {User && User.firstName}</p>
-                </aside>
-                <main>
+        <Layout style={{ minHeight: "100vh" }}>
+            <Sider collapsible>
+                <Menu theme="dark" mode="inline" selectedKeys={[selectedNavItem]}>
+                    <Menu.Item key="accueil" onClick={() => { setSelectedNavItem("accueil"); }}>
+                        <Link >Accueil</Link>
+                    </Menu.Item>
+                    <Menu.Item key="planifier" onClick={() => { setSelectedNavItem("planifier"); }}>
+                        <Link >Planifier une discussion</Link>
+                    </Menu.Item>
+                    <Menu.Item key="Salons" onClick={() => { fetchCanalList('http://localhost:8080/api/rooms/owner'); setSelectedNavItem("Salons"); }}>
+                        <Link >Mes salons de discussion</Link>
+                    </Menu.Item>
+                    <Menu.Item key="invitations" onClick={() => { fetchCanalList('http://localhost:8080/api/rooms/invitation'); setSelectedNavItem("invitations"); }}>
+                        <Link >Mes invitations</Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+            <Layout>
+                <Header>
+                    <div className="logo" />
+                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+                        <Menu.Item key="1">ID: {User && User.id}</Menu.Item>
+                        <Menu.Item key="2">Name: {User && User.firstName}</Menu.Item>
+                    </Menu>
+                </Header>
+                <Content style={{ margin: "16px" }}>
                     {selectedNavItem === 'Salons' && (
-                        <ChatListSalons
-                            chats={chats}
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
-                            enterChatRoom={enterChatRoom}
-                            exitChatRoom={exitChatRoom}
-                            inChatRoom={inChatRoom}
-                            currentChat={currentChat}
-                            User={User}
-                        />
+                        <ChatListSalons chats={chats} User={User} />
                     )}
 
                     {selectedNavItem === 'invitations' && (
-                        <ChatListInvitations chats={chats}
-                                             enterChatRoom={enterChatRoom}
-                                             exitChatRoom={exitChatRoom}
-                                             inChatRoom={inChatRoom}
-                                             currentChat={currentChat}
-                                             User={User}
-
-                        />
+                        <ChatListInvitations chats={chats} User={User} />
                     )}
 
-                    {selectedNavItem === 'accueil' &&(
+                    {selectedNavItem === 'accueil' && (
                         <h1>Bienvenue sur la page d'accueil</h1>
                     )}
-                    {selectedNavItem === 'planifier' &&(
-                        <Planifier/>
+                    {selectedNavItem === 'planifier' && (
+                        <Planifier />
                     )}
-                    {/*{showModalVisible === 'edit' && (*/}
-                    {/*    <Modal>*/}
-                    {/*        <h2>编辑</h2>*/}
-                    {/*        /!* 编辑框内容 *!/*/}
-                    {/*        <button onClick={closeEditModal}>关闭</button>*/}
-                    {/*    </Modal>*/}
-                    {/*)}*/}
-                </main>
-            </div>
-        </div>
+                </Content>
+            </Layout>
+        </Layout>
     );
 }
 
