@@ -25,7 +25,6 @@ const ChatListSalons = ({ chats, User }) => {
 
     const fetchChatUsers = async (chat) => {
         try {
-            console.log("1");
             const chatId = chat.id;
             const response = await axios.get(`http://localhost:8080/api/rooms/owner/${chatId}`, {
                 params: {
@@ -34,7 +33,6 @@ const ChatListSalons = ({ chats, User }) => {
             });
             console.log(response.data);
             setChatUsers(response.data);
-            console.log("2");
         } catch (error) {
             console.error('Error fetching Canal list:', error);
         }
@@ -80,6 +78,10 @@ const ChatListSalons = ({ chats, User }) => {
     const exitChatRoom = () => {
         // 退出聊天室的逻辑
         // 设置 inChatRoom 状态为 false
+        setHistory("");
+        if (ws) {
+            ws.close();
+        }
         setInChatRoom(false);
     };
 
@@ -198,8 +200,8 @@ const ChatListSalons = ({ chats, User }) => {
 
             <div>
                 <h2>聊天室: {currentChat.titre}</h2>
-                <Input.TextArea id="history" value={history} readOnly />
-                <Input value={message} onChange={(e) => setMessage(e.target.value)} />
+                <Input.TextArea id="history" value={history} readOnly style={{ width: '500px', height: '300px' }}/>
+                <Input value={message} onChange={(e) => setMessage(e.target.value)}  style={{ width: '500px', height: '50px' }}  />
                 <Button onClick={handleSend} type="primary">发送</Button>
                 <Button onClick={exitChatRoom}>退出聊天室</Button>
                 {chatUsers && (
