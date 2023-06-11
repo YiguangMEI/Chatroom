@@ -14,4 +14,6 @@ public interface UsercanalRepository extends JpaRepository<Usercanal,Long>{
     List<Usercanal> findByuser(@Param("user") User user);
 
     Usercanal findByuserAndCanal(@Param("user") User user, @Param("canal") Canal canal);
+
+    List<Usercanal> findBycanal(@Param("canal") Canal canal);
 }

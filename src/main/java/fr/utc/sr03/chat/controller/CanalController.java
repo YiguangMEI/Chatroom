@@ -77,6 +77,28 @@ public class CanalController {
         User user = userRepository.findById(userID).get();
         return canalRepository.findByowner(user);
     }
+    @GetMapping("/rooms/owner/{canal_id}")
+    public List<User> getCanalMember(@PathVariable("canal_id") int canal_id){
+        long canalID = canal_id;
+        Canal canal = canalRepository.findById(canalID).get();
+        List<Usercanal> usercanals=usercanalRepository.findBycanal(canal);
+        List<User> users=new ArrayList<>();
+        for (Usercanal usercanal:usercanals){
+            users.add(usercanal.getUser());
+        }
+        return users;
+    }
+    //edit canal
+    @PutMapping("/rooms/owners/{canal_id}")
+    public Canal editCanal(@PathVariable("canal_id") int canal_id, @RequestBody Map<String, Object> requestBody) {
+        long canalID = canal_id;
+        Canal canal = canalRepository.findById(canalID).get();
+        canal.setTitre((String) requestBody.get("titre"));
+        canal.setDescription((String) requestBody.get("description"));
+        canal.setDuree(Integer.parseInt((String) requestBody.get("duree")));
+        canalRepository.save(canal);
+        return canal;
+    }
 
     @DeleteMapping("/rooms/inviter/{canal_id}")
     public void quitterCanal(@PathVariable("canal_id") int canal_id, @RequestParam("user") int user_id) {
@@ -121,6 +143,7 @@ public class CanalController {
             throw new RuntimeException(e);
         }
     }
+
     //邀请新用户到canal
     @PostMapping("/rooms/inviter")
     public void inviterUser(@RequestParam("canal_id") int canal_id, @RequestParam("user_id") int user_id) {
