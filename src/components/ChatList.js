@@ -176,11 +176,11 @@ const ChatList = (props) => {
                 </Header>
                 <Content style={{ margin: "16px" }}>
                     {selectedNavItem === 'Salons' && (
-                        <ChatListSalons chats={chats} User={User} />
+                        <ChatListSalons chats={chats} User={User} state={'salons'} />
                     )}
 
                     {selectedNavItem === 'invitations' && (
-                        <ChatListInvitations chats={chats} User={User} />
+                        <ChatListSalons chats={chats} User={User} state={'invitations'}/>
                     )}
 
                     {selectedNavItem === 'accueil' && (
