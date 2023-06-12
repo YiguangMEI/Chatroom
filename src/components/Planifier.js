@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { Modal, Form, Input, Button } from 'antd';
-const Planifier = () => {
+const Planifier = (Userid) => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(true);
     const handleSubmit = async (valus) => {
         //event.preventDefault();
 
         try {
-
             const response = await axios.post('http://localhost:8080/api/rooms/planifier', {
-                user_id: parseInt(valus.userId),
-                canal_name: valus.canalName,
-                canal_description: valus.canalDescription,
-                canal_date: valus.canalDate,
-                canal_time: parseInt(valus.canalTime)
+
+
+                    user_id: Userid.userid, // 将 userId 替换为实际的用户ID
+                    canal_name: valus.canalName,
+                    canal_description: valus.canalDescription,
+                    canal_date: valus.canalDate,
+                    canal_time: parseInt(valus.canalTime)
+
+
+
             });
 
 
@@ -46,9 +50,7 @@ const Planifier = () => {
                 footer={null}
             >
             <Form form={form} onFinish={handleSubmit}>
-                <Form.Item name="userId" label="用户ID" rules={[{ required: true }]}>
-                    <Input style={{ width: '300px' }}/>
-                </Form.Item>
+
                 <Form.Item name="canalName" label="频道名称" rules={[{ required: true }]}>
                     <Input style={{ width: '300px' }}/>
                 </Form.Item>

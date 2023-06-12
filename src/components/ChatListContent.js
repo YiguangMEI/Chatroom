@@ -14,7 +14,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
     const [currentChat, setCurrentChat] = useState(null); // enterChatRoom, exitChatRoom,inChatRoom,currentChat
 
     const [currentPage, setCurrentPage] = useState(1); // 当前页码
-    const [pageSize, setPageSize] = useState(10); // 每页显示的条数
+    const [pageSize, setPageSize] = useState(5); // 每页显示的条数
 
 
 
@@ -44,14 +44,23 @@ const ChatListSalons = ({ chats, User ,state}) => {
     useEffect(() => {
         return () => {
             // 在组件卸载时关闭 WebSocket 连接
+            setHistory("");
+
             if (ws) {
                 ws.close();
+                console.log("qinglingle ");
             }
+
             setInChatRoom(false);
+            console.log("qin ");
+
         };
-    }, []);
+    }, [state]);
 
     const enterChatRoom = (chat) => {
+        if (ws) {
+            ws.close();
+        }
         setCurrentChat(chat);
         const chatId = chat.id;
         const userId = User.firstName;
@@ -74,6 +83,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
         });
         setInChatRoom(true);
     };
+
 
     const exitChatRoom = () => {
         // 退出聊天室的逻辑
@@ -242,25 +252,30 @@ const ChatListSalons = ({ chats, User ,state}) => {
         // 聊天界面的内容
         return (
 
-            <div>
+            <div style={{ display: 'flex',width: '1000px', height: '300px'  }} >
+                <div style={{width: '300px', height: '300px'}}>
                 <h2>聊天室: {currentChat.titre}</h2>
-                <Input.TextArea id="history" value={history} readOnly style={{ width: '500px', height: '300px' }}/>
-                <Input value={message} onChange={(e) => setMessage(e.target.value)}  style={{ width: '500px', height: '50px' }}  />
+                <Input.TextArea id="history" value={history} readOnly style={{ width: '300px', height: '300px' }}/>
+                <Input value={message} onChange={(e) => setMessage(e.target.value)}  style={{ width: '300px', height: '50px' }}  />
                 <Button onClick={handleSend} type="primary">发送</Button>
                 <Button onClick={exitChatRoom}>退出聊天室</Button>
-                {chatUsers && (
-                <List
-                    dataSource={chatUsers}
-                    renderItem={(item) => (
-                        <List.Item key={item.id}>
-                            <List.Item.Meta
-                                title={item.name}
-                                description={item.email}
-                            />
-                        </List.Item>
-                    )}
-                />
-            )}
+                </div>
+                <div style={{width: '300px', height: '300px'}}>
+                    {chatUsers && (
+                    <List
+                        dataSource={chatUsers}
+                        renderItem={(item) => (
+                            <List.Item key={item.id}>
+                                <List.Item.Meta
+                                    title={item.firstName}
+                                    description={item.mail}
+                                />
+                            </List.Item>
+                        )}
+                    />
+                )}
+                </div>
+
             </div>
 
 
