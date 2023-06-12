@@ -35,14 +35,18 @@ public class WebSocketServer {
         }
         System.out.println("canalid:"+canalid);
         System.out.println(userid+" has connected!");
+        broadcast(canalid,"======================");
         broadcast(canalid,userid+" has connected!");
+        broadcast(canalid,"======================");
     }
     @OnClose
     public void disConnect(@PathParam("canalid") Long canalid, Session session,@PathParam("userid") String userid) throws Exception {
 
         canals.get(canalid).remove(session);
         System.out.println(userid +" has disconnected!");
+        broadcast(canalid,"=======================");
         broadcast(canalid,userid+" has disconnected!");
+        broadcast(canalid,"=======================");
     }
     @OnMessage
     public void receiveMsg(@PathParam("canalid") Long canalid,

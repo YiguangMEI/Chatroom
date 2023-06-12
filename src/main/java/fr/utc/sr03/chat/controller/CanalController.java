@@ -124,7 +124,9 @@ public class CanalController {
 
     @PostMapping("/rooms/planifier")
     public Canal planifierCanal(@RequestBody Map<String, Object> requestBody) {
-        int user_id= (int) requestBody.get("user_id");
+        LOGGER.info(requestBody.get("user_id"));
+        int user_id= (int)requestBody.get("user_id");
+
         String canal_name = (String) requestBody.get("canal_name");
         String canal_description = (String) requestBody.get("canal_description");
         String canal_date = (String) requestBody.get("canal_date");
