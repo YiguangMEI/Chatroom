@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Pagination, Modal, Form, Input, Button, Table, List } from "antd";
+import {Modal, Form, Input, Button, Table, Layout, List} from "antd";
 import moment from "moment";
+const { Header, Content, Sider,Footer } = Layout;
 const ChatListSalons = ({ chats, User ,state}) => {
     const [ws, setWs] = useState(null);
     const [history, setHistory] = useState("");
@@ -12,7 +13,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
     const [inEditRoom, setInEditRoom] = useState(false);
     const [editedChat, setEditedChat] = useState(null); //将要编辑的聊天室信息
     const [currentChat, setCurrentChat] = useState(null); // enterChatRoom, exitChatRoom,inChatRoom,currentChat
-
+    const [inUserAdd, setInUserAdd] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // 当前页码
     const [pageSize, setPageSize] = useState(5); // 每页显示的条数
 
@@ -48,17 +49,13 @@ const ChatListSalons = ({ chats, User ,state}) => {
 
             if (ws) {
                 ws.close();
-                console.log("qinglingle ");
             }
-
             setInChatRoom(false);
-            console.log("qin ");
-
         };
     }, [state]);
 
     const enterChatRoom = (chat) => {
-        if (ws) {
+        if(ws){
             ws.close();
         }
         setCurrentChat(chat);
@@ -83,7 +80,6 @@ const ChatListSalons = ({ chats, User ,state}) => {
         });
         setInChatRoom(true);
     };
-
 
     const exitChatRoom = () => {
         // 退出聊天室的逻辑
@@ -153,8 +149,26 @@ const ChatListSalons = ({ chats, User ,state}) => {
         }));
     };
 
+    const handleAddUser = async (values) => {
+        try {
+            // 调用后端 API 保存编辑后的聊天室信息
+            const response = await axios.put(`http://localhost:8080/api/rooms/owners/${editedChat.id}`, {
+                titre: values.titre,
+                description: values.description,
+                duree: values.duree,
+            });
+            // 处理成功响应逻辑
+            console.log("保存成功:", response.data);
+            alert("保存成功");
+        } catch (error) {
+            // 处理错误响应逻辑
+            console.error("保存请求错误:", error);
+        }
 
-       const columns = [
+        setInEditRoom(false);
+    }
+
+       const columns_salons = [
            {
                title: "Id",
                dataIndex: "id",
@@ -208,7 +222,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
        ];
 
 
-       const columns1 = [
+       const columns_invitation = [
            {
                title: 'ID',
                dataIndex: 'id',
@@ -246,37 +260,52 @@ const ChatListSalons = ({ chats, User ,state}) => {
            },
        ];
 
-    if (inChatRoom ) {
+    function addChatuser() {
+        setInUserAdd(true);
+    }
 
+    if (inChatRoom ) {
 
         // 聊天界面的内容
         return (
-
-            <div style={{ display: 'flex',width: '1000px', height: '300px'  }} >
-                <div style={{width: '300px', height: '300px'}}>
-                <h2>聊天室: {currentChat.titre}</h2>
-                <Input.TextArea id="history" value={history} readOnly style={{ width: '300px', height: '300px' }}/>
-                <Input value={message} onChange={(e) => setMessage(e.target.value)}  style={{ width: '300px', height: '50px' }}  />
-                <Button onClick={handleSend} type="primary">发送</Button>
-                <Button onClick={exitChatRoom}>退出聊天室</Button>
-                </div>
-                <div style={{width: '300px', height: '300px'}}>
-                    {chatUsers && (
-                    <List
-                        dataSource={chatUsers}
-                        renderItem={(item) => (
-                            <List.Item key={item.id}>
-                                <List.Item.Meta
-                                    title={item.firstName}
-                                    description={item.mail}
+            // <div>
+            <Layout style={{ width: "100%", height: "100%" }}>
+                <Header style={{ backgroundColor: "white", textAlign: "center" }}>
+                    <h2>Chat Room: {currentChat.titre}</h2>
+                </Header>
+                <Layout hasSider style={{ height: "100%" }}>
+                    <Content style={{ height: "100%" }}>
+                        <Input.TextArea id="history" value={history} readOnly style={{ overflowY: "auto", height: "90%", width: "100%" }} />
+                        <div style={{ display: "flex", alignItems: "center",height:"10%" }}>
+                            <Input value={message} onChange={(e) => setMessage(e.target.value)} style={{ width: '80%', height: '100%', marginRight: '0px' }} />
+                            <Button onClick={handleSend} type="primary">发送</Button>
+                            <Button onClick={exitChatRoom}>退出聊天室</Button>
+                        </div>
+                    </Content>
+                    <Sider style={{ backgroundColor: "white", display: "flex", flexDirection: "column" }}>
+                        <div style={{ flex: "1" }}>
+                            <h2 style={{ textAlign: "center" }}>Membre</h2>
+                            {chatUsers && (
+                                <List
+                                    style={{ width: "100%", padding: "6px" }}
+                                    dataSource={chatUsers}
+                                    renderItem={(item) => (
+                                        <List.Item key={item.id}>
+                                            <List.Item.Meta
+                                                title={item.firstName}
+                                                description={item.mail}
+                                            />
+                                        </List.Item>
+                                    )}
                                 />
-                            </List.Item>
-                        )}
-                    />
-                )}
-                </div>
-
-            </div>
+                            )}
+                        </div>
+                        <Button style={{ textAlign: "center", width: "100%" }} onClick={addChatuser} type="dashed">
+                            <b>+</b>
+                        </Button>
+                    </Sider>
+                </Layout>
+            </Layout>
 
 
 
@@ -287,7 +316,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
         return (
             <div>
                 <Table
-                    columns={columns}
+                    columns={columns_salons}
                     dataSource={visibleChats}
                     pagination={{
                         current: currentPage,
@@ -337,7 +366,7 @@ const ChatListSalons = ({ chats, User ,state}) => {
            <div>
                <Table
                    dataSource={visibleChats}
-                   columns={columns1}
+                   columns={columns_invitation}
                    pagination={{
                        current: currentPage,
                        pageSize: pageSize,
