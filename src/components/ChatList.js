@@ -172,8 +172,8 @@ const ChatList = (props) => {
             </Sider>
             <Layout>
                 <Header>
-                    <div className="logo" />
-                    <div style={{ display: 'flex' }}>
+                    <div className="logo" style={{ width:'800'}}/>
+                    <div style={{ display: 'flex'}}>
                         <div>
                         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{ display: 'flex' }} >
                             <Menu.Item key="1">ID: {User && User.id}</Menu.Item>
@@ -181,7 +181,7 @@ const ChatList = (props) => {
                         </Menu >
                         </div>
 
-                        <div style={{ marginLeft: '600px' }}></div> {                               }
+                        <div style={{ marginLeft: '650px' }}></div> {                               }
 
                         <div>
                         <Menu  theme="dark" mode="horizontal" defaultSelectedKeys={["3"]} style={{ display: 'flex',justifyContent: 'flex-end'}}>
