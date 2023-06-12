@@ -136,6 +136,10 @@ const ChatList = (props) => {
             console.error('Error fetching Canal list:', error);
         }
     }
+    const handleLogout = () => {
+        sessionStorage.removeItem('user');
+        navigate("/");
+    };
 
     useEffect(() => {
         const user = sessionStorage.getItem('user');
@@ -169,10 +173,23 @@ const ChatList = (props) => {
             <Layout>
                 <Header>
                     <div className="logo" />
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-                        <Menu.Item key="1">ID: {User && User.id}</Menu.Item>
-                        <Menu.Item key="2">Name: {User && User.firstName}</Menu.Item>
-                    </Menu>
+                    <div style={{ display: 'flex' }}>
+                        <div>
+                        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{ display: 'flex' }} >
+                            <Menu.Item key="1">ID: {User && User.id}</Menu.Item>
+                            <Menu.Item key="2">Name: {User && User.firstName}</Menu.Item>
+                        </Menu >
+                        </div>
+
+                        <div style={{ marginLeft: '600px' }}></div> {                               }
+
+                        <div>
+                        <Menu  theme="dark" mode="horizontal" defaultSelectedKeys={["3"]} style={{ display: 'flex',justifyContent: 'flex-end'}}>
+                            <Menu.Item key="3"  onClick={handleLogout}>Logout</Menu.Item>
+                        </Menu>
+                        </div>
+                    </div>
+
                 </Header>
                 <Content style={{ margin: "16px" }}>
                     {selectedNavItem === 'Salons' && (
