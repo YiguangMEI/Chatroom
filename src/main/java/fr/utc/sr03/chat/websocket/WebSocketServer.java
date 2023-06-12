@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketServer {
     private static final Map<Long, Set<Session>> canals = new ConcurrentHashMap();
     @OnOpen
-    public void connect(@PathParam("canalid") Long canalid, Session session) throws Exception {
+    public void connect(@PathParam("canalid") Long canalid, Session session,@PathParam("userid") String userid) throws Exception {
         // 将session按照房间名来存储，将各个房间的用户隔离
         if (!canals.containsKey(canalid)) {
             // 创建房间不存在时，创建房间
@@ -33,18 +33,22 @@ public class WebSocketServer {
             // 房间已存在，直接添加用户到相应的房间
             canals.get(canalid).add(session);
         }
-        System.out.println("a client has connected!");
+        System.out.println("canalid:"+canalid);
+        System.out.println(userid+" has connected!");
+        broadcast(canalid,userid+" has connected!");
     }
     @OnClose
-    public void disConnect(@PathParam("canalid") Long canalid, Session session) {
+    public void disConnect(@PathParam("canalid") Long canalid, Session session,@PathParam("userid") String userid) throws Exception {
+
         canals.get(canalid).remove(session);
-        System.out.println("a client has disconnected!");
+        System.out.println(userid +" has disconnected!");
+        broadcast(canalid,userid+" has disconnected!");
     }
     @OnMessage
     public void receiveMsg(@PathParam("canalid") Long canalid,
-                           String msg, Session session) throws Exception {
+                           String msg, Session session,@PathParam("userid") String userid) throws Exception {
         // 此处应该有html过滤
-        msg = session.getId() + ":" + msg;
+        msg = userid + ":" + msg;
         System.out.println(msg);
         // 接收到信息后进行广播
         broadcast(canalid, msg);
