@@ -60,9 +60,18 @@ public class AdminController {
         return "user_edit";
     }
     @PostMapping("update")
-    public String updateUser(@ModelAttribute User user) {
-        userRepository.save(user);
-        return "redirect:/admin/users";
+    public String updateUser(@ModelAttribute User user,Model model) {
+        User editUser = userRepository.findByMail(user.getMail());
+        if (editUser != null && editUser.getId()!=user.getId()) {
+            model.addAttribute("errorMessage", "Email already exists");
+            return "user_edit";
+
+        } else {
+
+            // 在会话中存储已登录的用户信息
+            userRepository.save(user);
+            return "redirect:/admin/users";
+        }
     }
 
     @GetMapping("ajoute")
@@ -80,13 +89,22 @@ public class AdminController {
 
     @PostMapping("ajoute")
     public String addUser(@ModelAttribute User user,Model model) {
-        User newUser=user;
-        LOGGER.info(newUser.getFirstName()+"");
-        userRepository.save(newUser);
+        User newUser = user;
+        LOGGER.info(newUser.getFirstName() + "");
 
-        List<User> users = userRepository.findAll();
-        model.addAttribute("users", users);
-        return "redirect:/admin/users";
+        User addUser = userRepository.findByMail(user.getMail());
+        if (addUser != null) {
+            model.addAttribute("errorMessage", "Email already exists");
+            return "ajoute";
+
+        } else {
+
+            // 在会话中存储已登录的用户信息
+            userRepository.save(newUser);
+            List<User> users = userRepository.findAll();
+            model.addAttribute("users", users);
+            return "redirect:/admin/users";
+        }
     }
 
 

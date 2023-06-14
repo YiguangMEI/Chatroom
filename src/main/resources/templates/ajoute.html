@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Admin</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -97,29 +97,32 @@
   margin-right: auto;">
                     <div class="mb-3">
                         <label class="form-label">First Name:</label>
-                             <input type="text" class="form-control" th:field="*{firstName}">
+                             <input type="text" class="form-control" th:field="*{firstName}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Last Name:</label>
-                            <input type="text" class="form-control" th:field="*{lastName}">
+                            <input type="text" class="form-control" th:field="*{lastName}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">mail:</label>
-                            <input type="text" class="form-control"  th:field="*{mail}">
+                            <input type="email" class="form-control"  th:field="*{mail}" required>
                     </div>
 
                     <div class="mb-3">
                          <label class="form-label" >password:</label>
 
-                        <input type="text" class="form-control" th:field="*{password}">
+                        <input type="password" class="form-control" th:field="*{password}" minlength="8" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" >admin:</label>
-                        <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}">
+                        <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}" >
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Add User</button>
+                    <div th:if="${errorMessage}" class="alert alert-danger">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
                 </form>
             </div>
 
