@@ -1,113 +1,5 @@
-// import React, {useEffect, useState} from "react";
-// import {Link,useNavigate} from "react-router-dom";
-// import axios from 'axios';
-//
-// import {ChatListSalons} from "./ChatListContent";
-// import {ChatListInvitations} from "./ChatListContent";
-// import Planifier from "./Planifier";
-// // const currentUrl = window.location.href;
-// // const updatedUrl = currentUrl.replace('3000', '8080');
-// // console.log(updatedUrl);
-//
-// const ChatList = (props) => {
-//     const [chats, setChats] = useState([])
-//     const [User, setUser] = useState([]);
-//     const navigate = useNavigate();
-//     const [selectedNavItem, setSelectedNavItem] = useState(null);
-//     const [modalVisible, setModalVisible] = useState(false);
-//     const fetchCanalList = async (url) => {
-//         try {
-//                 const userid=User.id;
-//                 const response = await axios.get(url, {
-//                     params: {
-//                         user_Id: userid // 将 userId 替换为实际的用户ID
-//                     }
-//                 });
-//                 setChats(response.data);
-//         } catch (error) {
-//             console.error('Error fetching Canal list:', error);
-//         }
-//     }
-//
-//     useEffect(() => {
-//         //TODOuseEffect Recuperer la liste des chats du user depuis le backend spring
-//         // axios.get...
-//         const user = sessionStorage.getItem('user');
-//
-//         if (user) {
-//             const parsedUser = JSON.parse(user);
-//             setUser(parsedUser);
-//         } else {
-//             navigate("/");
-//         }
-//         //setCurrentChat(1);
-//
-//     }, [])
-//
-//
-//
-//     // => "onload"
-//
-//
-//     return (
-//
-//         <div>
-//             <nav className="navbar navbar-expand-lg">
-//                 <div className="container-fluid">
-//                     <Link className={'navbar-brand'} onClick={()=>{setSelectedNavItem("accueil");}}>Accueil</Link>
-//                     <div className="collapse navbar-collapse" id="navbarNav">
-//                         <ul className="navbar-nav">
-//                             <li className="nav-item">
-//                                 <Link className={'nav-link'} onClick={()=>{setSelectedNavItem("planifier");}}  >Planifier une discussion</Link>
-//                             </li>
-//                             <li className="nav-item">
-//                                 <Link className={'nav-link'} onClick={() =>{
-//                                     fetchCanalList('http://localhost:8080/api/rooms/owner');setSelectedNavItem("Salons");}}>Mes salons de discussion</Link>
-//                             </li>
-//                             <li className="nav-item">
-//                                 <Link className={'nav-link'} onClick={() =>{
-//                                     fetchCanalList('http://localhost:8080/api/rooms/invitation');setSelectedNavItem("invitations");}}>Mes invitations</Link>
-//                             </li>
-//                         </ul>
-//                     </div>
-//                 </div>
-//             </nav>
-//             <div className="content">
-//                 <aside>
-//                     <p>ID: {User && User.id}</p>
-//                     <p>Name: {User && User.firstName}</p>
-//                 </aside>
-//                 <main>
-//                     {selectedNavItem === 'Salons' && (
-//                         <ChatListSalons
-//                             chats={chats}
-//                             User={User}
-//                         />
-//                     )}
-//
-//                     {selectedNavItem === 'invitations' && (
-//                         <ChatListInvitations chats={chats}
-//                                              User={User}
-//
-//                         />
-//                     )}
-//
-//                     {selectedNavItem === 'accueil' &&(
-//                         <h1>Bienvenue sur la page d'accueil</h1>
-//                     )}
-//                     {selectedNavItem === 'planifier' &&(
-//                         <Planifier
-//                         />
-//                     )}
-//                 </main>
-//             </div>
-//         </div>
-//     );
-// }
-//
-// export default ChatList;
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Layout, Menu, Card } from "antd";
 import axios from 'axios';
 
@@ -116,18 +8,19 @@ import Planifier from "./Planifier";
 
 const { Header, Content, Sider } = Layout;
 
-const ChatList = (props) => {
+const ChatList = () => {
     const [chats, setChats] = useState([]);
     const [User, setUser] = useState([]);
     const navigate = useNavigate();
     const [selectedNavItem, setSelectedNavItem] = useState('accueil');
 
+    // Fonction pour récupérer la liste des canaux depuis l'API
     const fetchCanalList = async (url) => {
         try {
-            const userid = User.id;
+            const userid = User.id; // Récupérer l'ID de l'utilisateur
             const response = await axios.get(url, {
                 params: {
-                    user_Id: userid // 将 userId 替换为实际的用户ID
+                    user_Id: userid
                 }
             });
             setChats(response.data);
@@ -135,11 +28,14 @@ const ChatList = (props) => {
             console.error('Error fetching Canal list:', error);
         }
     }
+
+    // Fonction de déconnexion
     const handleLogout = () => {
         sessionStorage.removeItem('user');
         navigate("/");
     };
 
+    // Effet de chargement initial pour vérifier si l'utilisateur est connecté
     useEffect(() => {
         const user = sessionStorage.getItem('user');
 
@@ -218,7 +114,6 @@ const ChatList = (props) => {
                         </div>
                     )}
                     {selectedNavItem === 'planifier' && (
-                        console.log("asasas:"+User.id),
                         <Planifier Userid={User.id} exit={() => setSelectedNavItem(null)}/>
                     )}
                 </Content>
