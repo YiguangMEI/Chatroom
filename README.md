@@ -158,11 +158,12 @@ Les interactions entre les diff¨¦rentes technologies sont les suivantes :
 ## GreenIT-Analysis
 [Chrome?Web?Store - Extensions (google.com)](https://chrome.google.com/webstore/detail/greenit-analysis/mofbfhffeklkbebfclfaiifefjflcpad/related?hl=fr)
 ### Page de gestion des utilisateurs
-![[1686956070170.png]]
-![[1686956124923.png]]
+![1686956070170.png](1686956070170.png)
+![1686956124923.png](1686956124923.png)
 ### L¡¯application de chat
-![[1686956193140(1).png]]
-![[1686956217892(1).png]]
+![1686956193140(1).png](1686956193140%281%29.png)
+![1686956217892(1).png](1686956217892%281%29.png)
+
 Pistes d'am¨¦lioration pour am¨¦liorer l'eco-index :
 
 - Optimiser la taille des ressources statiques (images, scripts, etc.) pour r¨¦duire le temps de chargement et la consommation de bande passante.
