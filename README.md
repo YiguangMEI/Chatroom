@@ -5,7 +5,7 @@ Il y a deux branches dans gitlab, un `master` contenant le contenu de `Springboo
 ## Sch¨¦ma de l'architecture
   ```
 
-  +--------------+
+                      +--------------+
                       |   Navigateur |
                       +------+-------+
                              |
