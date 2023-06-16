@@ -23,14 +23,14 @@ const AddUser = ({currentChat,exitAddUser}) => {
             console.error("邀请失败", error);
         }
     };
-    //获得没有加入该频道的所以用户
+
+    // Obtenir tous les utilisateurs qui n'ont pas rejoint ce salon de discussion
     const getUser = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/api/rooms/inviter/${currentChat.id}`);
             console.log("获得用户成功:", response.data);
             setUser(response.data);
         } catch (error) {
-            // 处理错误响应逻辑
             console.error("获得用户失败", error);
         }
     };
@@ -47,7 +47,6 @@ const AddUser = ({currentChat,exitAddUser}) => {
     }
 
     return (
-
         <div >
             {modalVisible && (
             <Modal

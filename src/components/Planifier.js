@@ -6,43 +6,34 @@ const Planifier = ({Userid,exit}) => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(true);
     const handleSubmit = async (valus) => {
-        //event.preventDefault();
         console.log("valus:", valus);
         console.log("Userid:", Userid);
         try {
             const response = await axios.post('http://localhost:8080/api/rooms/planifier', {
-
-
-                    user_id: Userid, // 将 userId 替换为实际的用户ID
+                    user_id: Userid,
                     canal_name: valus.canalName,
                     canal_description: valus.canalDescription,
                     canal_date: valus.canalDate,
                     canal_time: parseInt(valus.canalTime)
             });
 
-
-            // 处理成功响应逻辑
             console.log("Vous avez réussi à ajouter une salle de discussion!", response.data);
-
             alert("Vous avez réussi à ajouter une salle de discussion!");
             closeModal();
         } catch (error) {
-            // 处理错误响应逻辑
             console.error("error:", error);
         }
     }
 
-    // const openModal = () => {
-    //     setModalVisible(true);
-    // }
+    const openModal = () => {
+        setModalVisible(true);
+    }
     const closeModal = () => {
-        // setModalVisible(false);
         exit();
     }
+
     return (
-
         <div >
-
             <Modal
                 title="Planifier une discussion"
                 open={modalVisible}

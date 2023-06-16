@@ -192,7 +192,7 @@ const ChatList = (props) => {
 
                         <div>
                         <Menu  theme="dark" mode="horizontal" defaultSelectedKeys={["3"]} style={{ justifyContent: 'flex-end'}}>
-                            <Menu.Item key="3"  onClick={handleLogout}>Logout</Menu.Item>
+                            <Menu.Item key="3"  onClick={handleLogout}>Déconnexion</Menu.Item>
                         </Menu>
                         </div>
                     </div>
