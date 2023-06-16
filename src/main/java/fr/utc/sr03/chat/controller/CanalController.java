@@ -1,5 +1,8 @@
 package fr.utc.sr03.chat.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.utc.sr03.chat.dao.CanalRepository;
 import fr.utc.sr03.chat.dao.UserRepository;
 import fr.utc.sr03.chat.dao.UsercanalRepository;
@@ -7,22 +10,19 @@ import fr.utc.sr03.chat.model.Canal;
 import fr.utc.sr03.chat.model.User;
 import fr.utc.sr03.chat.model.Usercanal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
-import javax.validation.constraints.Email;
+
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
@@ -43,6 +43,9 @@ public class CanalController {
     private CanalRepository canalRepository;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private ObjectMapper objectMapper;
+
     //login
     @PostMapping("/login")
     public User getLogin(@RequestBody Map<String, String> loginRequest) {
@@ -83,11 +86,15 @@ public class CanalController {
         Canal canal = canalRepository.findById(canalID).get();
         List<Usercanal> usercanals=usercanalRepository.findBycanal(canal);
         List<User> users=new ArrayList<>();
+        users.add(canal.getOwner());
         for (Usercanal usercanal:usercanals){
             users.add(usercanal.getUser());
         }
         return users;
     }
+
+
+
     //edit canal
     @PutMapping("/rooms/owners/{canal_id}")
     public Canal editCanal(@PathVariable("canal_id") int canal_id, @RequestBody Map<String, Object> requestBody) {
@@ -124,7 +131,6 @@ public class CanalController {
 
     @PostMapping("/rooms/planifier")
     public Canal planifierCanal(@RequestBody Map<String, Object> requestBody) {
-        LOGGER.info(requestBody.get("user_id"));
         int user_id= (int)requestBody.get("user_id");
 
         String canal_name = (String) requestBody.get("canal_name");
@@ -146,24 +152,47 @@ public class CanalController {
         }
     }
 
+    //获得未在该canal中的user
+    @GetMapping("/rooms/inviter/{canal_id}")
+    public List<User> getCanalInviter(@PathVariable("canal_id") int canal_id){
+        long canalID = canal_id;
+        Canal canal = canalRepository.findById(canalID).get();
+        List<Usercanal> usercanals=usercanalRepository.findBycanal(canal);
+        List<User> users=new ArrayList<>();
+        User owner=canal.getOwner();
+        users.add(owner);
+        for (Usercanal usercanal:usercanals){
+            users.add(usercanal.getUser());
+        }
+        List<User> allusers=userRepository.findAll();
+        allusers.removeAll(users);
+        return allusers;
+    }
     //邀请新用户到canal
-    @PostMapping("/rooms/inviter")
-    public void inviterUser(@RequestParam("canal_id") int canal_id, @RequestParam("user_id") int user_id) {
+    @PostMapping("/rooms/inviter/{canal_id}")
+    public void inviterUser(@PathVariable("canal_id") int canal_id, @RequestBody Map<String, Object> requestBody) {
+        List<Integer> users_id = (List<Integer>) requestBody.get("users_id");
+        List<User> users = new ArrayList<>();
+        for (int user_id : users_id) {
+            long userID = user_id;
+            User user = userRepository.findById(userID).get();
+            users.add(user);
+        }
         long canalID = canal_id;
-        long userID = user_id;
-        User user = userRepository.findById(userID).get();
         Canal canal = canalRepository.findById(canalID).get();
-        Usercanal usercanal = new Usercanal(canal, user);
-        usercanalRepository.save(usercanal);
+        for (User user : users) {
+            Usercanal usercanal = new Usercanal(canal, user);
+            usercanalRepository.save(usercanal);
+        }
     }
-    //加入canal
-    @PostMapping("/rooms/join")
-    public void joinCanal(@RequestParam("canal_id") int canal_id, @RequestParam("user_id") int user_id) {
-        long canalID = canal_id;
-        long userID = user_id;
-        User user = userRepository.findById(userID).get();
-        Canal canal = canalRepository.findById(canalID).get();
-        Usercanal usercanal = new Usercanal(canal, user);
-        usercanalRepository.save(usercanal);
-    }
+//    加入canal
+//    @PostMapping("/rooms/join")
+//    public void joinCanal(@RequestParam("canal_id") int canal_id, @RequestParam("user_id") int user_id) {
+//        long canalID = canal_id;
+//        long userID = user_id;
+//        User user = userRepository.findById(userID).get();
+//        Canal canal = canalRepository.findById(canalID).get();
+//        Usercanal usercanal = new Usercanal(canal, user);
+//        usercanalRepository.save(usercanal);
+//    }
 }

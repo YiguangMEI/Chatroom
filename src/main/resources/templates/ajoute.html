@@ -120,6 +120,7 @@
                         <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}" >
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Add User</button>
+                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='/admin/users'">Annuler</button>
                     <div th:if="${errorMessage}" class="alert alert-danger">
                         <p th:text="${errorMessage}"></p>
                     </div>

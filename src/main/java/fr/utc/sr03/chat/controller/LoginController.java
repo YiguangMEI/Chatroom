@@ -30,10 +30,12 @@ public class LoginController {
     @PostMapping
     public String postLogin(@ModelAttribute User user, Model model) {
         User loggedUser = userRepository.findByMailAndPassword(user.getMail(), user.getPassword());
-        if (loggedUser != null) {
+        if (loggedUser != null && loggedUser.isAdmin() && loggedUser.isEnabled()) {
                 // 在会话中存储已登录的用户信息
-                session.setAttribute("loggedInUser", loggedUser);
-                return "redirect:/admin/users";
+
+                    session.setAttribute("loggedInUser", loggedUser);
+                    return "redirect:/admin/users";
+
         } else {
             model.addAttribute("invalid", true);
             return "login";
