@@ -34,30 +34,30 @@ body, #root{
 /***********************************************/
 /* LAYOUT */
 /***********************************************/
-header, footer{
-    height: 5%;
-    background-color: #184e5b;
-    color: #fff;
-}
+/*header, footer{*/
+/*    height: 5%;*/
+/*    background-color: #184e5b;*/
+/*    color: #fff;*/
+/*}*/
 
-nav{
-    height: 8%;
-    background-color: #7da7ad;
-}
+/*nav{*/
+/*    height: 8%;*/
+/*    background-color: #7da7ad;*/
+/*}*/
 
-.content{
-    display: flex;
-    height: 82%;
-    width: 100%;
-}
+/*.content{*/
+/*    display: flex;*/
+/*    height: 82%;*/
+/*    width: 100%;*/
+/*}*/
 
-aside{
-    width: 20%;
-}
+/*aside{*/
+/*    width: 20%;*/
+/*}*/
 
-main{
-    width: 80%;
-}
+/*main{*/
+/*    width: 80%;*/
+/*}*/
 
 /***********************************************/
 /* BOOTSTRAP OVERRIDE */

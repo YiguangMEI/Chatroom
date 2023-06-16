@@ -108,11 +108,10 @@
 // export default ChatList;
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Card } from "antd";
 import axios from 'axios';
 
 import { ChatListSalons } from "./ChatListContent";
-import { ChatListInvitations } from "./ChatListContent";
 import Planifier from "./Planifier";
 
 const { Header, Content, Sider } = Layout;
@@ -121,7 +120,7 @@ const ChatList = (props) => {
     const [chats, setChats] = useState([]);
     const [User, setUser] = useState([]);
     const navigate = useNavigate();
-    const [selectedNavItem, setSelectedNavItem] = useState(null);
+    const [selectedNavItem, setSelectedNavItem] = useState('accueil');
 
     const fetchCanalList = async (url) => {
         try {
@@ -153,47 +152,55 @@ const ChatList = (props) => {
     }, [])
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-            <Sider collapsible>
-                <Menu theme="dark" mode="inline" selectedKeys={[selectedNavItem]}>
+        <Layout style={{ minHeight: "100vh" }} >
+            <Sider collapsible={false} theme="light" >
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div>
+                <Menu theme="light" mode="vertical" selectedKeys={[selectedNavItem]}>
                     <Menu.Item key="accueil" onClick={() => { setSelectedNavItem("accueil"); }}>
-                        <Link >Accueil</Link>
+                        <b>Accueil</b>
                     </Menu.Item>
                     <Menu.Item key="planifier" onClick={() => { setSelectedNavItem("planifier"); }}>
-                        <Link >Planifier une discussion</Link>
+                        Planifier une discussion
                     </Menu.Item>
                     <Menu.Item key="Salons" onClick={() => { fetchCanalList('http://localhost:8080/api/rooms/owner'); setSelectedNavItem("Salons"); }}>
-                        <Link >Mes salons de discussion</Link>
+                        Mes salons de discussion
                     </Menu.Item>
                     <Menu.Item key="invitations" onClick={() => { fetchCanalList('http://localhost:8080/api/rooms/invitation'); setSelectedNavItem("invitations"); }}>
-                        <Link >Mes invitations</Link>
+                        Mes invitations
                     </Menu.Item>
                 </Menu>
+                </div>
+                <div style={{marginTop: 'auto' }}>
+                <Card
+                    title="Information"
+                    bordered={true}
+                >
+                    <p><b>ID:</b> {User && User.id}</p>
+                    <p><b>Name:</b> {User && User.firstName} {User && User.lastName}</p>
+                    <p><b>Email:</b> {User && User.mail}</p>
+                </Card>
+                </div>
+                </div>
             </Sider>
             <Layout>
-                <Header>
+                <Header >
                     <div className="logo" style={{ width:'800'}}/>
                     <div style={{ display: 'flex'}}>
-                        <div>
-                        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]} style={{ display: 'flex' }} >
-                            <Menu.Item key="1">ID: {User && User.id}</Menu.Item>
-                            <Menu.Item key="2">Name: {User && User.firstName}</Menu.Item>
-                        </Menu >
-                        </div>
-
-                        <div style={{ marginLeft: '650px' }}></div> {                               }
+                        <h2 style={{ color: 'white'}}>Salon de chat</h2>
+                        <div style={{ marginLeft: 'auto' }}></div> {                               }
 
                         <div>
-                        <Menu  theme="dark" mode="horizontal" defaultSelectedKeys={["3"]} style={{ display: 'flex',justifyContent: 'flex-end'}}>
+                        <Menu  theme="dark" mode="horizontal" defaultSelectedKeys={["3"]} style={{ justifyContent: 'flex-end'}}>
                             <Menu.Item key="3"  onClick={handleLogout}>Logout</Menu.Item>
                         </Menu>
                         </div>
                     </div>
 
                 </Header>
-                <Content style={{ margin: "16px" }}>
+                <Content style={{ margin: "16px", height: "100%" }}>
                     {selectedNavItem === 'Salons' && (
-                        <ChatListSalons chats={chats} User={User} state={'salons'} />
+                        <ChatListSalons chats={chats} User={User} state={'salons'}/>
                     )}
 
                     {selectedNavItem === 'invitations' && (
@@ -201,10 +208,18 @@ const ChatList = (props) => {
                     )}
 
                     {selectedNavItem === 'accueil' && (
-                        <h1>Bienvenue sur la page d'accueil</h1>
+
+                        <div style={{ display: 'flex' }}>
+
+                            <p>
+                                <span style={{ display: 'block' }}><b>Bienvenue sur la page d'accueil</b> </span>
+                            </p>
+
+                        </div>
                     )}
                     {selectedNavItem === 'planifier' && (
-                        <Planifier userid={User.id}/>
+                        console.log("asasas:"+User.id),
+                        <Planifier Userid={User.id} exit={() => setSelectedNavItem(null)}/>
                     )}
                 </Content>
             </Layout>
