@@ -1,39 +1,45 @@
+#### Projet Member:
+MEI   Yiguang
+LIANG Lizhi
+
+
+
 # Architecture de l'application
 
-L'application que je propose suit une architecture client-serveur bas¨¦e sur les technologies React, Spring Boot et WebSockets.
+L'application que je propose suit une architecture client-serveur basÂ¨Â¦e sur les technologies React, Spring Boot et WebSockets.
 Il y a deux branches dans gitlab, un `master` contenant le contenu de `Springboot` et un `React` contenant le contenu de `React`.
-## Sch¨¦ma de l'architecture
+## SchÂ¨Â¦ma de l'architecture
   ```
 
                       +--------------+
                       |   Navigateur |
                       +------+-------+
                              |
-                             | Requ¨ºtes HTTP
+                             | RequÂ¨Âºtes HTTP
                              |
                       +------+-------+
                 +-----|  Serveur Web  |------+
                 |     +------+-------+      |
                 |            |              |
-        Requ¨ºtes WebSocket   |              |
+        RequÂ¨Âºtes WebSocket   |              |
                 |            |              |
                 v            v              v
         +-------+-----+--------+--------+--------+
-        |   React      |   Spring Boot   |   Base de donn¨¦es  |
+        |   React      |   Spring Boot   |   Base de donnÂ¨Â¦es  |
         +--------------+-----------------+-------------------+
 ```
 
 Description de l'architecture :
 
-- Le client utilise React pour cr¨¦er une interface utilisateur r¨¦active et interactive.
-- Le serveur est d¨¦velopp¨¦ avec Spring Boot, qui fournit une base solide pour la cr¨¦ation d'applications Java.
-- La communication en temps r¨¦el entre le client et le serveur est ¨¦tablie ¨¤ l'aide du protocole WebSocket, permettant une exp¨¦rience de chat en temps r¨¦el fluide.
+- Le client utilise React pour crÂ¨Â¦er une interface utilisateur rÂ¨Â¦active et interactive.
+- Le serveur est dÂ¨Â¦veloppÂ¨Â¦ avec Spring Boot, qui fournit une base solide pour la crÂ¨Â¦ation d'applications Java.
+- La communication en temps rÂ¨Â¦el entre le client et le serveur est Â¨Â¦tablie Â¨Â¤ l'aide du protocole WebSocket, permettant une expÂ¨Â¦rience de chat en temps rÂ¨Â¦el fluide.
 
 # Conception
 
 ## Diagramme de classes 
 
-Voici le diagramme de classes repr¨¦sentant la conception de l'application :
+Voici le diagramme de classes reprÂ¨Â¦sentant la conception de l'application :
 ```
 
                +-----------------+
@@ -48,7 +54,7 @@ Voici le diagramme de classes repr¨¦sentant la conception de l'application :
                +-----------------+
                       * |
                         |                          +-----------------+
-         appartenir ¨¤ ¡ü |--------------------------|    UserCanal    |           
+         appartenir Â¨Â¤ Â¡Ã¼ |--------------------------|    UserCanal    |           
                         |                          +-----------------+
                       * |                          |- canal: Canal   |
                +----------------+                  |- user: User     |
@@ -65,10 +71,10 @@ Voici le diagramme de classes repr¨¦sentant la conception de l'application :
 ```
 Description de la conception :
 
-- La classe `Canal` repr¨¦sente une salle de chat, contenant les informations telles que la date de cr¨¦ation et la dur¨¦e de validit¨¦.
-- La classe `User` repr¨¦sente un utilisateur du chat, contenant les informations utilisateur n¨¦cessaires.
-- La classe `UserCanal` repr¨¦sente la relation entre la salle de chat et l¡¯utilisateur, la salle de chat appartenant ¨¤ l¡¯utilisateur, le membre appartenant ¨¤ la salle de chat.
-# Sch¨¦ma relationnel
+- La classe `Canal` reprÂ¨Â¦sente une salle de chat, contenant les informations telles que la date de crÂ¨Â¦ation et la durÂ¨Â¦e de validitÂ¨Â¦.
+- La classe `User` reprÂ¨Â¦sente un utilisateur du chat, contenant les informations utilisateur nÂ¨Â¦cessaires.
+- La classe `UserCanal` reprÂ¨Â¦sente la relation entre la salle de chat et lÂ¡Â¯utilisateur, la salle de chat appartenant Â¨Â¤ lÂ¡Â¯utilisateur, le membre appartenant Â¨Â¤ la salle de chat.
+# SchÂ¨Â¦ma relationnel
 ```
 @Entity  
 @Table(name = "user_canal")
@@ -142,31 +148,31 @@ public class User {
 ```
 
 Justification des choix de conception :
-- L'utilisation d'annotations JPA permet de mapper les classes sur une base de donn¨¦es relationnelle de mani¨¨re transparente. Cela simplifie les op¨¦rations de persistance des objets dans la base de donn¨¦es.
-- La relation `@ManyToOne` entre `Canal` et `User` permet de repr¨¦senter la relation d'appartenance d'un utilisateur ¨¤ un canal. Ainsi, un canal peut avoir un propri¨¦taire unique, r¨¦f¨¦renc¨¦ par l'attribut `owner`.
-- La classe UserCanal est utilis¨¦e pour mod¨¦liser la relation entre les utilisateurs et les canaux de chat. Elle utilise une relation @ManyToOne pour lier un utilisateur ¨¤ un canal. Cette conception permet de g¨¦rer facilement l'appartenance des utilisateurs aux canaux et d'acc¨¦der aux canaux auxquels un utilisateur est associ¨¦.
+- L'utilisation d'annotations JPA permet de mapper les classes sur une base de donnÂ¨Â¦es relationnelle de maniÂ¨Â¨re transparente. Cela simplifie les opÂ¨Â¦rations de persistance des objets dans la base de donnÂ¨Â¦es.
+- La relation `@ManyToOne` entre `Canal` et `User` permet de reprÂ¨Â¦senter la relation d'appartenance d'un utilisateur Â¨Â¤ un canal. Ainsi, un canal peut avoir un propriÂ¨Â¦taire unique, rÂ¨Â¦fÂ¨Â¦rencÂ¨Â¦ par l'attribut `owner`.
+- La classe UserCanal est utilisÂ¨Â¦e pour modÂ¨Â¦liser la relation entre les utilisateurs et les canaux de chat. Elle utilise une relation @ManyToOne pour lier un utilisateur Â¨Â¤ un canal. Cette conception permet de gÂ¨Â¦rer facilement l'appartenance des utilisateurs aux canaux et d'accÂ¨Â¦der aux canaux auxquels un utilisateur est associÂ¨Â¦.
 
-# Interactions entre les diff¨¦rentes technologies
+# Interactions entre les diffÂ¨Â¦rentes technologies
 
-Les interactions entre les diff¨¦rentes technologies sont les suivantes :
+Les interactions entre les diffÂ¨Â¦rentes technologies sont les suivantes :
 
-- React est utilis¨¦ pour la cr¨¦ation de l'interface utilisateur du client. Il offre une gestion efficace de l'¨¦tat de l'application et facilite les mises ¨¤ jour r¨¦actives de l'interface en fonction des ¨¦v¨¦nements WebSocket re?us.
-- Spring Boot est utilis¨¦ pour la cr¨¦ation du serveur c?t¨¦ backend. Il g¨¨re les connexions WebSocket, g¨¨re la logique m¨¦tier et la persistance des donn¨¦es via des services et des repositories.
-- Les WebSockets permettent la communication en temps r¨¦el bidirectionnelle entre le client et le serveur. Cela permet au serveur d'envoyer des mises ¨¤ jour en temps r¨¦el aux clients, tels que les nouveaux messages de chat, sans avoir besoin de recharger la page.
+- React est utilisÂ¨Â¦ pour la crÂ¨Â¦ation de l'interface utilisateur du client. Il offre une gestion efficace de l'Â¨Â¦tat de l'application et facilite les mises Â¨Â¤ jour rÂ¨Â¦actives de l'interface en fonction des Â¨Â¦vÂ¨Â¦nements WebSocket re?us.
+- Spring Boot est utilisÂ¨Â¦ pour la crÂ¨Â¦ation du serveur c?tÂ¨Â¦ backend. Il gÂ¨Â¨re les connexions WebSocket, gÂ¨Â¨re la logique mÂ¨Â¦tier et la persistance des donnÂ¨Â¦es via des services et des repositories.
+- Les WebSockets permettent la communication en temps rÂ¨Â¦el bidirectionnelle entre le client et le serveur. Cela permet au serveur d'envoyer des mises Â¨Â¤ jour en temps rÂ¨Â¦el aux clients, tels que les nouveaux messages de chat, sans avoir besoin de recharger la page.
 
-# R¨¦sultat eco-index de votre site
+# RÂ¨Â¦sultat eco-index de votre site
 ## GreenIT-Analysis
 [Chrome?Web?Store - Extensions (google.com)](https://chrome.google.com/webstore/detail/greenit-analysis/mofbfhffeklkbebfclfaiifefjflcpad/related?hl=fr)
 ### Page de gestion des utilisateurs
 ![1686956070170.png](image/1686956070170.png)
 ![1686956124923.png](image/1686956124923.png)
-### L¡¯application de chat
+### LÂ¡Â¯application de chat
 ![1686956193140(1).png](image/1686956193140%281%29.png)
 ![1686956217892(1).png](image/1686956217892%281%29.png)
 
-Pistes d'am¨¦lioration pour am¨¦liorer l'eco-index :
+Pistes d'amÂ¨Â¦lioration pour amÂ¨Â¦liorer l'eco-index :
 
-- Optimiser la taille des ressources statiques (images, scripts, etc.) pour r¨¦duire le temps de chargement et la consommation de bande passante.
-- Mettre en cache les ressources statiques sur le client pour minimiser les requ¨ºtes r¨¦seau.
-- Adopter des bonnes pratiques de programmation et de conception pour optimiser l'efficacit¨¦ du code et r¨¦duire la consommation de ressources.
-- Utiliser des outils de compression et de minification pour r¨¦duire la taille des fichiers CSS et JavaScript.
+- Optimiser la taille des ressources statiques (images, scripts, etc.) pour rÂ¨Â¦duire le temps de chargement et la consommation de bande passante.
+- Mettre en cache les ressources statiques sur le client pour minimiser les requÂ¨Âºtes rÂ¨Â¦seau.
+- Adopter des bonnes pratiques de programmation et de conception pour optimiser l'efficacitÂ¨Â¦ du code et rÂ¨Â¦duire la consommation de ressources.
+- Utiliser des outils de compression et de minification pour rÂ¨Â¦duire la taille des fichiers CSS et JavaScript.
