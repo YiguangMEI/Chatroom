@@ -1,3 +1,6 @@
+#### Projet Member:
+MEI   Yiguang
+LIANG Lizhi
 
 
 # Pour une présentation du projet global voir le `README` de la branche `Master`
