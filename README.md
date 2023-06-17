@@ -1,7 +1,7 @@
 # Architecture de l'application
 
 L'application que je propose suit une architecture client-serveur bas¨¦e sur les technologies React, Spring Boot et WebSockets.
-Il y a deux branches dans gitlab, un `master` contenant le contenu de `Springboot` et un `React` contenant le contenu de `React`.
+Il y a deux branches dans gitlab, un `master` contenant le contenu de `Springboot` et un `React1` contenant le contenu de `React`.
 ## Sch¨¦ma de l'architecture
   ```
 
