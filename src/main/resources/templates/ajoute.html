@@ -20,24 +20,7 @@
             });
         });
 
-        // function fetchPage(url) {
-        //     fetch(url)
-        //         .then(function(response) {
-        //             if (response.ok) {
-        //                 return response.text();
-        //             }
-        //             throw new Error('Error: ' + response.status);
-        //         })
-        //         .then(function(data) {
-        //
-        //             document.documentElement.innerHTML = data;
-        //         })
-        //         .catch(function(error) {
-        //             console.error(error);
-        //         });
-        // }
     </script>
-    <!-- 导航栏style -->
     <style>
         ul {
             list-style-type: none;
@@ -96,12 +79,12 @@
                 <form action="#" th:action="@{/admin/ajoute}" th:object="${user}" method="post" style="height: 400px; width: 400px; margin-left: auto;
   margin-right: auto;">
                     <div class="mb-3">
-                        <label class="form-label">First Name:</label>
+                        <label class="form-label">Prénom:</label>
                              <input type="text" class="form-control" th:field="*{firstName}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Last Name:</label>
+                        <label class="form-label">Nom:</label>
                             <input type="text" class="form-control" th:field="*{lastName}" required>
                     </div>
 
@@ -111,7 +94,7 @@
                     </div>
 
                     <div class="mb-3">
-                         <label class="form-label" >password:</label>
+                         <label class="form-label" >Mot de Passe:</label>
 
                         <input type="password" class="form-control" th:field="*{password}" minlength="8" required>
                     </div>
@@ -119,8 +102,10 @@
                         <label class="form-label" >admin:</label>
                         <input type="checkbox" name="admin" th:checked="${user.admin}" th:value="${true}" >
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Add User</button>
-                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='/admin/users'">Annuler</button>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='/admin/users'">Annuler</button>
+                    </div>
                     <div th:if="${errorMessage}" class="alert alert-danger">
                         <p th:text="${errorMessage}"></p>
                     </div>

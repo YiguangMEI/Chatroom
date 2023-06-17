@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
-import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 /**
- * URL de base du endpoint : http://localhost:8080/login
+ * URL de base endpoint : <a href="http://localhost:8080/login">...</a>
  */
 @Controller
 @RequestMapping("login")
@@ -21,56 +20,29 @@ public class LoginController {
     @Autowired
     private HttpSession session;
 
+    // Affiche la page de connexion
     @GetMapping
     public String getLogin(Model model) {
         model.addAttribute("user", new User());
         return "login";
     }
 
+    // Gère la soumission du formulaire de connexion
     @PostMapping
     public String postLogin(@ModelAttribute User user, Model model) {
+        // Recherche de l'utilisateur dans la base de données en utilisant l'e-mail et le mot de passe fournis
         User loggedUser = userRepository.findByMailAndPassword(user.getMail(), user.getPassword());
         if (loggedUser != null && loggedUser.isAdmin() && loggedUser.isEnabled()) {
-                // 在会话中存储已登录的用户信息
-
-                    session.setAttribute("loggedInUser", loggedUser);
-                    return "redirect:/admin/users";
-
+            // Vérifie si l'utilisateur est un administrateur et est activé
+            // Stocke l'utilisateur connecté dans la session
+            session.setAttribute("loggedInUser", loggedUser);
+            return "redirect:/admin/users"; // Redirige vers la page d'administration des utilisateurs
         } else {
-            model.addAttribute("invalid", true);
-            return "login";
+            model.addAttribute("invalid", true); // Indique une connexion invalide
+            return "login"; // Retourne la page de connexion
         }
     }
-
-//    @GetMapping("/reset-password")
-//    public String showResetPasswordForm() {
-//        return "reset";
-//    }
-
-//    @PostMapping("/reset-password")
-//    public String resetPassword(@RequestParam("email") String email) {
-//        User user = userRepository.findByMail(email);
-//        if (user != null) {
-//            // 生成密码重置令牌
-//            String resetToken = UUID.randomUUID().toString();
-//
-//            // 将令牌与用户关联存储到数据库中
-//            user.setResetToken(resetToken);
-//            userRepository.save(user);
-//
-//            // 构建重置链接
-//            String resetLink = "http://yourwebsite.com/reset/" + resetToken;
-//
-//            // 发送包含重置链接的电子邮件
-//            SimpleMailMessage message = new SimpleMailMessage();
-//            message.setTo(user.getMail());
-//            message.setSubject("Password Reset");
-//            message.setText("Please click the following link to reset your password: " + resetLink);
-//            emailSender.send(message);
-//        }
-//        // 无论电子邮件地址是否有效，都重定向到登录页面
-//        return "redirect:/login";
-//    }
 }
+
 
 

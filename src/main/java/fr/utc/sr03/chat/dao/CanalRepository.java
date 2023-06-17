@@ -11,6 +11,5 @@ import java.util.List;
 
 public interface CanalRepository extends JpaRepository<Canal,Long>{
     // Requete generee automatiquement par Spring
-    Canal findBytitre(@Param("titre") String titre);
     List<Canal> findByowner(@Param("Owner") User Owner);
 }

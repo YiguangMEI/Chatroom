@@ -21,7 +21,7 @@
 
 
     <form action="#" th:action="@{/login}" th:object="${user}" method="post">
-        <span class="centered">Wellcome to Admin Login</span>
+        <span class="centered">Bienvenue à la connexion d'administrateur</span>
 
         <div class="mb-3">
             <label for="mail" class="form-label">Email</label>
@@ -36,9 +36,6 @@
             <div class="invalid-feedback">Login ou mot de passe incorrect</div>
         </div>
         <button type="submit" class="btn btn-primary w-100">Connexion</button>
-        <div class="mb-3">
-            <a href="/reset-password">Mot de passe oublié ?</a>
-        </div>
     </form>
 
 </div>

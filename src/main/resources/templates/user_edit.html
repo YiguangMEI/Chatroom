@@ -10,32 +10,34 @@
 <body style="display: flex; justify-content: center; align-items: center; ">
 <div class="login-container" style="height: 500px;">
     <form th:action="@{/admin/update}" th:object="${user}" method="post" style="height: 400px; width: 400px;">
-        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{id}" />
         <div>
-            <label class="form-label" >First Name:</label>
+            <label class="form-label">Prénom :</label>
             <input class="form-control" type="text" th:field="*{firstName}" required>
         </div>
         <div>
-            <label class="form-label" >Last Name:</label>
+            <label class="form-label">Nom :</label>
             <input class="form-control" type="text" th:field="*{lastName}" required>
         </div>
         <div>
-            <label class="form-label">E-mail:</label>
+            <label class="form-label">E-mail :</label>
             <input class="form-control" type="email" th:field="*{mail}">
         </div>
         <div>
-            <label class="form-label">Password:</label>
+            <label class="form-label">Mot de passe :</label>
             <input class="form-control" type="password" th:field="*{password}" minlength="8" required>
         </div>
         <div>
-            <label class="form-label">Is admin?</label>
+            <label class="form-label">Est administrateur ?</label>
             <input type="checkbox" th:field="*{admin}">
         </div>
-        <input type="submit"  value="Save"/>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/admin/users'">Annuler</button>
         <div th:if="${errorMessage}" class="alert alert-danger">
             <p th:text="${errorMessage}"></p>
         </div>
     </form>
+
 </div>
 </body>
 </html>

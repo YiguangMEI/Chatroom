@@ -122,23 +122,23 @@
                     <td><span th:text="${user.password}"></span></td>
                     <td><span th:text="${user.admin}"></span></td>
                     <td><span th:text="${user.enabled}"></span></td>
-                    <td><!--禁用按钮-->
+                    <td><!--button d'activer-->
                         <form th:if="${user.enabled}" th:action="@{/admin/disable}" method="post">
                             <input type="hidden" name="id" th:value="${user.id}"/>
-                            <input type="submit" value="Disable"/>
+                            <input type="submit" value="Désactivé"/>
                         </form>
                         <form th:unless="${user.enabled}" th:action="@{/admin/enable}" method="post">
                             <input type="hidden" name="id" th:value="${user.id}"/>
-                            <input type="submit" value="Enable"/>
+                            <input type="submit" value="Activé"/>
                         </form>
                     </td>
-                    <td><!--删除按钮-->
+                    <td><!--button de supprimer-->
                         <form th:action="@{/admin/supprimer}" method="post">
                             <input type="hidden" name="id" th:value="${user.id}"/>
                             <input type="submit" value="Supprimer"/>
                         </form>
                     </td>
-                    <td><!--编辑按钮-->
+                    <td><!--button d'édit-->
                         <form th:action="@{/admin/edit}" method="get">
                             <input type="hidden" name="id" th:value="${user.id}"/>
                             <input type="submit" value="Edit"/>
