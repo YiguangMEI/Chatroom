@@ -282,8 +282,8 @@ const ChatListSalons = ({ chats, User ,state}) => {
                         </div>
                     </Content>
                     <Sider style={{ backgroundColor: "white", display: "flex", flexDirection: "column" }}>
-                        <div style={{ flex: "1" }}>
-                            <h2 style={{ textAlign: "center" }}>Membre</h2>
+                        <h5 style={{ textAlign: "center" }}>Membre</h5>
+                        <div style={{ flex: "1" ,maxHeight:'450px', overflow:'auto'}}>
                             {chatUsers && (
                                 <List
                                     style={{ width: "100%", padding: "6px" }}
